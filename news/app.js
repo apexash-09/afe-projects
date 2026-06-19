@@ -1,161 +1,85 @@
 // ==========================================================================
-// 1. ARTICLE DATABASE (NO PLACEHOLDERS, FULL DATA)
+// 1. OFFLINE / FALLBACK STATIC DATABASE
 // ==========================================================================
-const articles = [
+const fallbackArticles = [
   {
-    id: 1,
+    id: 9991,
     title: "DeepSeek-R1 Releases: Open Weights Reasoning Competes with Frontier Proprietary Models",
     category: "ai",
     author: "Elena Rostova",
     date: "June 18, 2026",
     readTime: "6 min read",
     excerpt: "DeepSeek introduces R1, utilizing Group Relative Policy Optimization (GRPO) to deliver SOTA mathematical and programming reasoning at a fraction of standard training costs.",
-    content: [
-      "In a major development for the global AI ecosystem, DeepSeek has released DeepSeek-R1. This open-weights model achieves performance levels comparable to OpenAI's o1 and o3 reasoning models, sparking intense discussion about the efficiency of current reinforcement learning techniques.",
-      "Rather than utilizing standard Proximal Policy Optimization (PPO), which requires maintaining a resource-intensive critic network, DeepSeek deployed Group Relative Policy Optimization (GRPO). This technique scores a group of model generations relative to each other, optimizing output structure and accuracy without heavy hardware footprints.",
-      "R1 was trained in four key stages: a cold-start Supervised Fine-Tuning phase with thousands of reasoning examples, a reasoning-focused GRPO reinforcement learning phase, an 800,000-sample rejection sampling phase, and a final alignment phase. The result is a model that handles complex math, nested coding tasks, and multi-step logic with ease.",
-      "Most remarkably, the company released a series of distilled models based on popular open architectures (Qwen and Llama), allowing developers to run SOTA reasoning capabilities locally on consumer GPUs."
-    ],
+    content: "DeepSeek-R1 is an open-weights reasoning model that uses reinforcement learning (GRPO) to self-correct and reason, producing results comparable to closed-weights frontier models.",
     gradClass: "g-ai",
     icon: "fa-robot",
     isFeatured: true,
     isTrending: false
   },
   {
-    id: 2,
+    id: 9992,
     title: "WebGPU and the Future of In-Browser Real-Time Raytracing",
     category: "tech",
     author: "Marcus Chen",
     date: "June 17, 2026",
     readTime: "4 min read",
     excerpt: "The widespread adoption of WebGPU allows developers to execute complex graphic pipelines and hardware-accelerated raytracing directly in standard browsers.",
-    content: [
-      "As WebGL starts to show its age, the tech community is rapidly shifting focus toward WebGPU—a modern API that exposes advanced GPU hardware features (like compute shaders and direct memory access) directly to JavaScript applications.",
-      "With WebGPU reaching production status in major browsers, developers are now building web-based game engines, offline visual renderers, and interactive simulations that previously required native application wrappers.",
-      "This evolution unlocks real-time path tracing, high-fidelity global illumination, and localized physics simulations directly within a browser tab. The implications for collaborative 3D tools, portfolio presentations, and educational visualizations are immense.",
-      "Furthermore, the API allows for high-performance machine learning inference directly on the client's GPU, paving the way for browser-based neural networks that do not require round-trips to expensive cloud clusters."
-    ],
+    content: "WebGPU is a modern Web API exposing advanced GPU features directly to browser clients, enabling high-performance graphics and local neural network execution.",
     gradClass: "g-tech",
     icon: "fa-laptop-code",
     isFeatured: false,
     isTrending: true
   },
   {
-    id: 3,
+    id: 9993,
     title: "Artemis III Target Landing Zones Selected on the Lunar South Pole",
     category: "space",
     author: "Sarah Jenkins",
     date: "June 16, 2026",
     readTime: "5 min read",
     excerpt: "NASA publishes nine landing candidates on the Moon's South Pole, chosen for their proximity to permanently shadowed craters housing water ice.",
-    content: [
-      "NASA has officially finalized the potential landing sites for the historic Artemis III mission, which aims to return humans to the lunar surface. The nine candidates, located near the Moon's South Pole, represent areas of intense scientific interest.",
-      "Unlike the relatively flat equatorial regions visited during the Apollo era, the Lunar South Pole features rugged, highly cratered terrain. Crucially, the region contains permanently shadowed craters where temperatures never exceed -150°C, preserving deep deposits of ancient water ice.",
-      "Harvesting this water ice is a core objective of the long-term Artemis program, as it can be processed into oxygen for breathing and hydrogen for rocket fuel, establishing a foundation for deep-space Mars missions.",
-      "Landing in these areas presents unique challenges, including extreme lighting angles, long shadows that make visual navigation difficult, and steep crater slopes. Planetary scientists are now analyzing high-resolution orbital telemetry to select the final landing zone."
-    ],
+    content: "NASA's Artemis III mission plans to return astronauts to the lunar surface. Selection candidates are at the South Pole, targeting resource ice extraction.",
     gradClass: "g-space",
     icon: "fa-user-astronaut",
-    isFeatured: false,
-    isTrending: true
-  },
-  {
-    id: 4,
-    title: "Neo-Minimalism and the Return of Skewomorphic Gestures in UI",
-    category: "design",
-    author: "Oliver Bennett",
-    date: "June 15, 2026",
-    readTime: "3 min read",
-    excerpt: "Product designers are moving away from completely flat components, introducing subtle tactile feedback, dynamic depths, and interactive gravity physics.",
-    content: [
-      "For over a decade, flat design dominated software interfaces, prioritizing absolute simplicity. However, designers are reporting rising interface fatigue, leading to a new design direction: Neo-Minimalism.",
-      "This approach maintains clean layout grids, generous white space, and bold typography, but integrates tactile design elements like glassmorphism overlays, soft drop shadows, and microscopic depth adjustments.",
-      "Importantly, interfaces are adopting 'skewomorphic gestures'—buttons that depress physically on hover, sliders with elastic spring effects, and elements that respond dynamically to device tilting or mouse speed.",
-      "By adding physical feedback, these interfaces feel more intuitive, providing immediate reassurance to users and boosting engagement rates across SaaS dashboards."
-    ],
-    gradClass: "g-design",
-    icon: "fa-bezier-curve",
-    isFeatured: false,
-    isTrending: false
-  },
-  {
-    id: 5,
-    title: "Rust in the Linux Kernel: A Multi-Year Assessment of Memory Safety",
-    category: "tech",
-    author: "Linus Torvaldsson",
-    date: "June 14, 2026",
-    readTime: "5 min read",
-    excerpt: "Reviewing the security impact and compiler optimizations since integrating Rust driver models into the core kernel branch.",
-    content: [
-      "When the kernel project first announced experimental Rust support, many developers were skeptical about performance overheads and language friction. Today, three years later, the results speak for themselves.",
-      "Several key device drivers, networking stacks, and filesystem abstractions have been rewritten in Rust. Telemetry indicates a complete elimination of use-after-free and buffer-overflow vulnerabilities in those modules.",
-      "The integration process was not without hurdles. The kernel developers had to write custom safety wrappers around raw C abstractions, manage complex memory pointers, and reconcile the differences between C and Rust compilation behaviors.",
-      "However, the stability gains in driver modules—which historically accounted for a significant percentage of system crashes—have convinced major Linux distributions to compile kernels with Rust support active by default."
-    ],
-    gradClass: "g-tech",
-    icon: "fa-code-branch",
-    isFeatured: false,
-    isTrending: false
-  },
-  {
-    id: 6,
-    title: "Voyager 1 Translates Legacy Memory Logs Using AI-Powered Telemetry",
-    category: "space",
-    author: "Dr. Arthur Vance",
-    date: "June 12, 2026",
-    readTime: "4 min read",
-    excerpt: "Engineers resolve a deep-space data corruption issue by training a custom decoder to reconstruct damaged telemetry packages.",
-    content: [
-      "In late 2025, Voyager 1 began sending a repeating stream of gibberish, indicating a failure in its Flight Data Subsystem (FDS). Facing a legacy computing system launched in 1977, NASA engineers resorted to cutting-edge AI decoding.",
-      "By feeding decades of clean historical telemetry into a localized decoder model, scientists trained the software to anticipate the signal pattern and reconstruct the damaged memory packets.",
-      "The technique worked: the team successfully isolated the corrupted memory chips, redirected the code, and received clean telemetry from a distance of over 15 billion miles.",
-      "This represents a unique fusion of historical space engineering and modern data science, demonstrating how machine learning can rescue legacy spacecraft operating near the edge of the heliosphere."
-    ],
-    gradClass: "g-space",
-    icon: "fa-satellite-dish",
-    isFeatured: false,
-    isTrending: false
-  },
-  {
-    id: 7,
-    title: "Adaptive Dark Themes: Using Light Sensors to Adjust Interface Hue",
-    category: "design",
-    author: "Aria Thorne",
-    date: "June 10, 2026",
-    readTime: "3 min read",
-    excerpt: "Going beyond static dark mode toggle switches, new browser extensions dynamically shift contrast based on ambient room illumination.",
-    content: [
-      "Traditional dark themes simply swap light backgrounds for dark slates. But in dark rooms, high-contrast white text on black backgrounds can still cause significant eye strain.",
-      "Adaptive design addresses this by reading ambient light sensors built into modern laptops and mobile phones. As room illumination decreases, the site dynamically lowers text contrast, shifts color temperature toward warm ambers, and softens backgrounds.",
-      "This real-time adjustments significantly reduces ocular fatigue, particularly during late-night programming or reading sessions.",
-      "Implementation requires querying the Ambient Light API and adjusting CSS variables dynamically via JavaScript transition filters, resulting in a premium UX."
-    ],
-    gradClass: "g-design",
-    icon: "fa-palette",
     isFeatured: false,
     isTrending: true
   }
 ];
 
-// Breaking news headlines for ticker
-const headlines = [
+// Live Breaking news ticker items (updated dynamically)
+let headlines = [
   "DeepSeek-R1 open weights model goes viral on Hugging Face with 2M+ downloads.",
   "WebGPU API officially enabled in all chromium browsers.",
   "Artemis III lunar lander completes thermal chamber testing.",
   "React 19 launches with native Server Actions support.",
-  "Voyager 1 resumes scientific telemetry transmission from interstellar space.",
-  "Tech companies adopt Neo-Minimalism layouts in SaaS upgrades."
+  "Voyager 1 resumes scientific telemetry transmission from interstellar space."
 ];
 
 // ==========================================================================
 // 2. STATE MANAGEMENT
 // ==========================================================================
+let articles = []; // Loaded from API
 let currentCategory = 'all';
 let searchQuery = '';
 let bookmarkedIds = JSON.parse(localStorage.getItem('chronicle-bookmarks')) || [];
 
+// Category color mappings
+const categoryGradients = {
+  tech: "g-tech",
+  ai: "g-ai",
+  space: "g-space",
+  design: "g-design"
+};
+
+const categoryIcons = {
+  tech: "fa-laptop-code",
+  ai: "fa-robot",
+  space: "fa-satellite-dish",
+  design: "fa-palette"
+};
+
 // ==========================================================================
-// 3. INITIALIZATION & ELEMENT REFERENCES
+// 3. INITIALIZATION & FETCH LOGIC
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   const newsGrid = document.getElementById('news-grid');
@@ -221,14 +145,81 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // 4. RENDER PROCEDURES
+  // 4. DEV.TO API FETCH PIPELINE (REAL-TIME LIVE NEWS)
+  // ==========================================================================
+  async function fetchLiveNews() {
+    newsGrid.innerHTML = `
+      <div style="grid-column: span 3; text-align: center; padding: 50px;">
+        <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 3rem; color: var(--color-accent); margin-bottom: 15px;"></i>
+        <p>Loading real-time news streams...</p>
+      </div>
+    `;
+
+    try {
+      // Fetch 25 latest tech/programming articles from Dev.to
+      const response = await fetch('https://dev.to/api/articles?per_page=25&state=rising');
+      if (!response.ok) throw new Error('API fetch error');
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        articles = data.map((apiItem, index) => {
+          // Map tags to our categories
+          const tagsStr = apiItem.tag_list.join(' ').toLowerCase();
+          let category = 'tech';
+          if (tagsStr.includes('ai') || tagsStr.includes('machinelearning') || tagsStr.includes('deepseek') || tagsStr.includes('gpt')) {
+            category = 'ai';
+          } else if (tagsStr.includes('space') || tagsStr.includes('nasa') || tagsStr.includes('science')) {
+            category = 'space';
+          } else if (tagsStr.includes('design') || tagsStr.includes('css') || tagsStr.includes('ux') || tagsStr.includes('ui')) {
+            category = 'design';
+          }
+
+          return {
+            id: apiItem.id,
+            title: apiItem.title,
+            category: category,
+            author: apiItem.user.name,
+            date: apiItem.readable_publish_date,
+            readTime: `${apiItem.reading_time_minutes} min read`,
+            excerpt: apiItem.description,
+            coverImage: apiItem.cover_image,
+            gradClass: categoryGradients[category],
+            icon: categoryIcons[category],
+            isFeatured: index === 0, // Top article is spotlight
+            isTrending: index > 0 && index < 4 // Next 3 are trending
+          };
+        });
+
+        // Dynamic marquee items from loaded articles
+        headlines = articles.slice(0, 6).map(a => a.title);
+      } else {
+        useFallback();
+      }
+    } catch (e) {
+      console.warn("Dev.to API failed, using high-quality local feeds.", e);
+      useFallback();
+    }
+
+    // Refresh display
+    initTicker();
+    renderFeatured();
+    renderTrending();
+    renderNewsGrid();
+    renderBookmarks();
+  }
+
+  function useFallback() {
+    articles = fallbackArticles;
+  }
+
+  // ==========================================================================
+  // 5. RENDER ENGINE
   // ==========================================================================
   
   // A. Render Breaking News Ticker
   function initTicker() {
     tickerContent.innerHTML = '';
-    // Duplicate headlines to make marquee loop seamless
-    const tickerItems = [...headlines, ...headlines];
+    const tickerItems = [...headlines, ...headlines]; // seamless marquee loop
     tickerItems.forEach(text => {
       const div = document.createElement('div');
       div.className = 'ticker-item';
@@ -237,16 +228,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // B. Render Hero Spotlight (Featured Article)
+  // B. Render Featured Spotlight Banner
   function renderFeatured() {
     const featured = articles.find(a => a.isFeatured);
     if (!featured) return;
 
+    // Use cover image if provided, else use CSS gradient background
+    const bgStyle = featured.coverImage 
+      ? `background-image: url('${featured.coverImage}'); background-size: cover; background-position: center;` 
+      : '';
+
     heroSpotlight.innerHTML = `
       <div class="hero-overlay"></div>
-      <div class="hero-bg ${featured.gradClass}"></div>
+      <div class="hero-bg ${featured.coverImage ? '' : featured.gradClass}" style="${bgStyle}"></div>
       <div class="hero-content">
-        <span class="card-tag">${featured.category}</span>
+        <span class="card-tag">${featured.category.toUpperCase()}</span>
         <h2>${featured.title}</h2>
         <div class="hero-meta">
           <span><i class="fa-solid fa-user-pen"></i> ${featured.author}</span>
@@ -255,13 +251,15 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Click behavior to open modal
-    heroSpotlight.addEventListener('click', () => {
+    // Reset old listeners
+    const newSpotlight = heroSpotlight.cloneNode(true);
+    heroSpotlight.parentNode.replaceChild(newSpotlight, heroSpotlight);
+    newSpotlight.addEventListener('click', () => {
       openArticleModal(featured.id);
     });
   }
 
-  // C. Render Trending Sidebar
+  // C. Render Trending Sidebar List
   function renderTrending() {
     trendingList.innerHTML = '';
     const trending = articles.filter(a => a.isTrending);
@@ -285,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // D. Render News Feed Cards Grid
+  // D. Render Card Feed Grid
   function renderNewsGrid() {
     newsGrid.innerHTML = '';
     
@@ -294,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Exclude spotlight
       if (article.isFeatured) return false;
 
-      // Filter by category
+      // Filter by category tab
       const matchesCategory = currentCategory === 'all' || article.category === currentCategory;
 
       // Filter by search query
@@ -309,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
       newsGrid.innerHTML = `
         <div class="no-results" style="grid-column: span 3; text-align: center; padding: 40px; color: var(--text-secondary);">
           <i class="fa-regular fa-folder-open" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
-          No articles found matching your criteria.
+          No live feeds match your search criteria.
         </div>
       `;
       return;
@@ -319,10 +317,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const isBookmarked = bookmarkedIds.includes(article.id);
       const card = document.createElement('article');
       card.className = 'news-card';
+      
+      const imgStyle = article.coverImage 
+        ? `background-image: url('${article.coverImage}'); background-size: cover; background-position: center;` 
+        : '';
+
       card.innerHTML = `
         <div class="card-image-wrapper">
-          <div class="card-image-placeholder ${article.gradClass}">
-            <i class="fa-solid ${article.icon}"></i>
+          <div class="card-image-placeholder ${article.coverImage ? '' : article.gradClass}" style="${imgStyle}">
+            ${article.coverImage ? '' : `<i class="fa-solid ${article.icon}"></i>`}
           </div>
           <button class="card-bookmark-btn ${isBookmarked ? 'active' : ''}" data-id="${article.id}" title="Save Article">
             <i class="fa-${isBookmarked ? 'solid' : 'regular'} fa-bookmark"></i>
@@ -334,21 +337,18 @@ document.addEventListener('DOMContentLoaded', () => {
             <span>${article.readTime}</span>
           </div>
           <h3>${article.title}</h3>
-          <p>${article.excerpt}</p>
+          <p>${article.excerpt || 'No description available.'}</p>
           <div class="card-author">
             <i class="fa-solid fa-user-pen"></i> ${article.author}
           </div>
         </div>
       `;
 
-      // Event listener for opening article
       card.addEventListener('click', (e) => {
-        // Prevent click trigger when clicking bookmark button
         if (e.target.closest('.card-bookmark-btn')) return;
         openArticleModal(article.id);
       });
 
-      // Bookmark button behavior
       const bmarkBtn = card.querySelector('.card-bookmark-btn');
       bmarkBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // E. Render Bookmarks List inside Sidebar
+  // E. Render Bookmarks List
   function renderBookmarks() {
     bookmarksList.innerHTML = '';
     const bookmarkedArticles = articles.filter(a => bookmarkedIds.includes(a.id));
@@ -378,9 +378,14 @@ document.addEventListener('DOMContentLoaded', () => {
     bookmarkedArticles.forEach(article => {
       const item = document.createElement('div');
       item.className = 'bookmark-item';
+      
+      const thumbStyle = article.coverImage 
+        ? `background-image: url('${article.coverImage}'); background-size: cover; background-position: center;` 
+        : '';
+
       item.innerHTML = `
-        <div class="bookmark-thumb ${article.gradClass}">
-          <i class="fa-solid ${article.icon}"></i>
+        <div class="bookmark-thumb ${article.coverImage ? '' : article.gradClass}" style="${thumbStyle}">
+          ${article.coverImage ? '' : `<i class="fa-solid ${article.icon}"></i>`}
         </div>
         <div class="bookmark-details">
           <h4>${article.title}</h4>
@@ -408,48 +413,53 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 5. INTERACTION LOGIC
+  // 6. INTERACTIVE DYNAMIC MODAL (FETCING SINGLE ARTICLE CONTENT FROM API)
   // ==========================================================================
-  
-  // A. Toggle Bookmarks
-  function toggleBookmark(id) {
-    const idx = bookmarkedIds.indexOf(id);
-    if (idx > -1) {
-      bookmarkedIds.splice(idx, 1);
-    } else {
-      bookmarkedIds.push(id);
-    }
-
-    // Save
-    localStorage.setItem('chronicle-bookmarks', JSON.stringify(bookmarkedIds));
-
-    // Re-render components
-    renderNewsGrid();
-    renderBookmarks();
-    updateModalBookmarkBtn(id);
-  }
-
-  // B. Dynamic Article Modal Opening
-  function openArticleModal(id) {
+  async function openArticleModal(id) {
     const article = articles.find(a => a.id === id);
     if (!article) return;
 
-    // Set content
+    // Loading State
     modalImgPlaceholder.className = `modal-img-placeholder ${article.gradClass}`;
-    modalImgPlaceholder.innerHTML = `<i class="fa-solid ${article.icon}"></i>`;
-    modalTag.innerText = article.category;
+    modalImgPlaceholder.style.backgroundImage = article.coverImage ? `url('${article.coverImage}')` : '';
+    modalImgPlaceholder.innerHTML = article.coverImage ? '' : `<i class="fa-solid ${article.icon}"></i>`;
+    modalTag.innerText = article.category.toUpperCase();
     modalReadTime.innerText = article.readTime;
     modalDate.innerText = article.date;
     modalTitle.innerText = article.title;
     modalAuthor.innerText = article.author;
 
-    // Set body text (multiple paragraphs support)
-    modalBody.innerHTML = '';
-    article.content.forEach(paragraph => {
-      const p = document.createElement('p');
-      p.innerText = paragraph;
-      modalBody.appendChild(p);
-    });
+    // Show loading text in body
+    modalBody.innerHTML = `
+      <div style="text-align: center; padding: 30px;">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--color-accent); margin-bottom: 10px;"></i>
+        <p>Loading full live article text...</p>
+      </div>
+    `;
+
+    // Open modal immediately to show loading spinner
+    articleModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Fetch full body HTML from single article endpoint if it is a Dev.to article
+    if (id < 9000) { // Fallback articles have IDs in 9990s
+      try {
+        const res = await fetch(`https://dev.to/api/articles/${id}`);
+        if (!res.ok) throw new Error('API fetch error');
+        const detailData = await res.json();
+        
+        if (detailData && detailData.body_html) {
+          modalBody.innerHTML = detailData.body_html;
+        } else {
+          modalBody.innerHTML = `<p>${article.excerpt || 'No additional content loaded.'}</p>`;
+        }
+      } catch (err) {
+        modalBody.innerHTML = `<p>${article.excerpt || 'Failed to load details. Please check connection.'}</p>`;
+      }
+    } else {
+      // Fallback local articles simply use static paragraph list
+      modalBody.innerHTML = `<p>${article.content}</p>`;
+    }
 
     // Bookmark button listener binding inside modal
     updateModalBookmarkBtn(id);
@@ -463,14 +473,27 @@ document.addEventListener('DOMContentLoaded', () => {
     activeBmarkBtn.addEventListener('click', () => {
       toggleBookmark(id);
     });
+  }
 
-    // Open modal
-    articleModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function toggleBookmark(id) {
+    const idx = bookmarkedIds.indexOf(id);
+    if (idx > -1) {
+      bookmarkedIds.splice(idx, 1);
+    } else {
+      bookmarkedIds.push(id);
+    }
+
+    localStorage.setItem('chronicle-bookmarks', JSON.stringify(bookmarkedIds));
+
+    // Re-render components
+    renderNewsGrid();
+    renderBookmarks();
+    updateModalBookmarkBtn(id);
   }
 
   function updateModalBookmarkBtn(id) {
     const activeBmarkBtn = document.getElementById('modal-bookmark-btn');
+    if (!activeBmarkBtn) return;
     const isBookmarked = bookmarkedIds.includes(id);
     if (isBookmarked) {
       activeBmarkBtn.className = 'btn btn-primary btn-sm';
@@ -494,13 +517,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // C. Search input listener
+  // Search input listener
   searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.toLowerCase().trim();
     renderNewsGrid();
   });
 
-  // D. Category Tabs switching
+  // Category Tabs switching
   const catTabs = document.querySelectorAll('.cat-tab');
   catTabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -513,12 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // 6. KICK OFF RENDERS
+  // 7. INITIALIZE API FETCH
   // ==========================================================================
-  initTicker();
-  renderFeatured();
-  renderTrending();
-  renderNewsGrid();
-  renderBookmarks();
+  fetchLiveNews();
 });
- Rosa
