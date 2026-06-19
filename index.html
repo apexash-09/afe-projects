@@ -3,34 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AFE Projects Hub | Apex Developer</title>
-  <meta name="description" content="Central hub for AFE projects: E-Profile, News Portal, Hugging Face Model Report, and GitHub Guide.">
+  <title>AFE Projects Hub | Gaming HUD Gateway</title>
+  <meta name="description" content="Futuristic gaming HUD portal linking to portfolio, news, and technical reports.">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --bg: #09060f;
-      --card-bg: rgba(18, 12, 33, 0.45);
-      --border: rgba(255, 255, 255, 0.08);
+      --bg: #030206;
+      --accent-neon: #00f0ff; /* Cyber Cyan */
+      --accent-magenta: #ff007f; /* Neon Pink */
+      --accent-purple: #8b5cf6;
+      --card-bg: rgba(9, 6, 18, 0.7);
+      --border-neon: rgba(0, 240, 255, 0.25);
       --text: #ffffff;
-      --text-muted: #a3a3a3;
-      --accent: #8b5cf6;
-      --accent-glow: rgba(139, 92, 246, 0.4);
+      --text-muted: #808d9a;
     }
     
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      user-select: none;
     }
     
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Share Tech Mono', monospace;
       background-color: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -39,138 +41,254 @@
       justify-content: center;
       align-items: center;
       position: relative;
-      overflow-x: hidden;
+      overflow: hidden;
       padding: 40px 20px;
     }
     
-    /* Blurred Background lights */
-    .glow {
+    /* Interactive Background Canvas */
+    #particle-canvas {
       position: absolute;
-      width: 400px;
-      height: 400px;
-      background-color: var(--accent);
-      filter: blur(130px);
-      opacity: 0.15;
-      border-radius: 50%;
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       z-index: 1;
+      pointer-events: all;
     }
     
-    .glow-1 { top: -100px; left: -100px; }
-    .glow-2 { bottom: -100px; right: -100px; }
+    /* CRT Scanlines Overlay */
+    .scanlines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+      ), linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.06),
+        rgba(0, 255, 0, 0.02),
+        rgba(0, 0, 255, 0.06)
+      );
+      background-size: 100% 4px, 6px 100%;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0.85;
+    }
     
     .container {
-      max-width: 900px;
+      max-width: 950px;
       width: 100%;
       position: relative;
-      z-index: 2;
+      z-index: 5;
       text-align: center;
     }
     
+    /* Header HUD Branding */
+    header {
+      margin-bottom: 50px;
+      position: relative;
+    }
+    
+    .hud-title-wrapper {
+      display: inline-block;
+      border-left: 3px solid var(--accent-neon);
+      border-right: 3px solid var(--accent-neon);
+      padding: 10px 40px;
+      background: rgba(0, 240, 255, 0.03);
+      box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
+      position: relative;
+    }
+    
+    .hud-title-wrapper::before {
+      content: 'SYS.STATUS: ONLINE';
+      position: absolute;
+      top: -18px;
+      left: 0;
+      font-size: 0.7rem;
+      color: var(--accent-neon);
+      letter-spacing: 2px;
+    }
+    
     h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #a78bfa, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
+      position: relative;
     }
     
     .subtitle {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      margin-bottom: 40px;
+      color: var(--accent-neon);
+      font-size: 1rem;
+      letter-spacing: 3px;
+      margin-top: 15px;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
     }
     
-    /* Cards Grid */
+    /* Grid layout */
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      margin-bottom: 40px;
+      gap: 30px;
+      margin-bottom: 50px;
     }
     
+    /* Gaming Cyber Cards */
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border: 1px solid var(--border-neon);
+      border-radius: 4px;
       padding: 30px;
       text-align: left;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
       text-decoration: none;
       color: inherit;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+    }
+    
+    /* Corner HUD bracket lights */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid var(--accent-neon);
+      border-left: 2px solid var(--accent-neon);
+      opacity: 0.5;
+      transition: all 0.3s;
+    }
+    
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      border-bottom: 2px solid var(--accent-neon);
+      border-right: 2px solid var(--accent-neon);
+      opacity: 0.5;
+      transition: all 0.3s;
     }
     
     .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(139, 92, 246, 0.3);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-glow);
+      border-color: var(--accent-neon);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.15);
+      transform: translateY(-4px) scale(1.02);
     }
     
+    .card:hover::before {
+      width: 25px;
+      height: 25px;
+      opacity: 1;
+      border-color: var(--accent-magenta);
+    }
+    
+    .card:hover::after {
+      width: 25px;
+      height: 25px;
+      opacity: 1;
+      border-color: var(--accent-magenta);
+    }
+    
+    /* Card Icon HUD */
     .icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(139, 92, 246, 0.1);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      color: #c084fc;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border-neon);
+      border-radius: 4px;
+      color: var(--accent-neon);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+      background: rgba(0, 240, 255, 0.05);
       transition: all 0.3s;
     }
     
     .card:hover .icon {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
+      background: var(--accent-neon);
+      color: #000;
+      box-shadow: 0 0 15px var(--accent-neon);
+      border-color: var(--accent-neon);
+      transform: rotate(45deg);
     }
     
     h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.4rem;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.25rem;
       font-weight: 700;
-      margin-bottom: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      color: #fff;
+      transition: color 0.3s;
+    }
+    
+    .card:hover h2 {
+      color: var(--accent-neon);
+      text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
     }
     
     p {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      flex-grow: 1;
-      margin-bottom: 20px;
-    }
-    
-    .link-text {
-      color: #c084fc;
-      font-weight: 600;
+      font-family: 'Inter', sans-serif;
       font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: auto;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      transition: color 0.3s;
     }
     
-    .link-text i {
+    .card:hover p {
+      color: #d1dbe5;
+    }
+    
+    .hud-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--accent-magenta);
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    .hud-btn i {
+      font-size: 0.75rem;
       transition: transform 0.2s;
     }
     
-    .card:hover .link-text i {
-      transform: translateX(4px);
+    .card:hover .hud-btn {
+      color: var(--accent-neon);
+      text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
     }
     
+    .card:hover .hud-btn i {
+      transform: translateX(6px);
+    }
+    
+    /* Footer HUD Grid */
     footer {
       color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      border-top: 1px solid rgba(0, 240, 255, 0.15);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
     }
     
     @media (max-width: 768px) {
@@ -178,58 +296,241 @@
         grid-template-columns: 1fr;
       }
       h1 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
+      }
+      footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
+  <!-- Game lobby interactive canvas -->
+  <canvas id="particle-canvas"></canvas>
+  <div class="scanlines"></div>
 
   <div class="container">
-    <h1>AFE Projects Hub</h1>
-    <p class="subtitle">Welcome to the central gateway of my submitted software and documentation projects.</p>
+    <header>
+      <div class="hud-title-wrapper">
+        <h1 id="glitch-title">AFE PROJECTS HUB</h1>
+        <div class="subtitle">Select Simulation Link</div>
+      </div>
+    </header>
     
     <div class="grid">
       <!-- Portfolio Card -->
-      <a href="portfolio/index.html" class="card">
-        <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
+      <a href="portfolio/index.html" class="card hud-card" data-sound="low">
+        <div class="icon"><i class="fa-solid fa-gamepad"></i></div>
         <h2>E-Profile Portfolio</h2>
-        <p>A premium interactive portfolio featuring glassmorphic designs, custom scroll animations, project filters, and a real-time styled resume builder with PDF export capability.</p>
-        <div class="link-text">Launch Portfolio <i class="fa-solid fa-arrow-right"></i></div>
+        <p>Simulation of interactive credentials. Featuring neon theme modifications, responsive timelines, and an audio-tactile live PDF Resume Builder engine.</p>
+        <div class="hud-btn">[INITIALIZE_PORTFOLIO] <i class="fa-solid fa-angles-right"></i></div>
       </a>
       
       <!-- News Card -->
-      <a href="news/index.html" class="card">
-        <div class="icon"><i class="fa-regular fa-newspaper"></i></div>
+      <a href="news/index.html" class="card hud-card" data-sound="high">
+        <div class="icon"><i class="fa-solid fa-satellite"></i></div>
         <h2>Chronicle News Portal</h2>
-        <p>A beautiful tech and science news portal featuring a breaking news ticker, live client-side search parsing, persistent local storage bookmarks, and dynamic article modals.</p>
-        <div class="link-text">Launch News Portal <i class="fa-solid fa-arrow-right"></i></div>
+        <p>A real-time telemetry portal logging science and tech alerts. Supported by category sorting feeds, search parameters, and saved file database logs.</p>
+        <div class="hud-btn">[LAUNCH_NEWS_PORTAL] <i class="fa-solid fa-angles-right"></i></div>
       </a>
       
       <!-- HF Report Card -->
-      <a href="huggingface_model_report.md" class="card">
+      <a href="huggingface_model_report.md" class="card hud-card" data-sound="low">
         <div class="icon"><i class="fa-solid fa-brain"></i></div>
         <h2>Hugging Face Report</h2>
-        <p>A detailed technical review analyzing the datasets, GRPO reinforcement learning steps, MLA attention architecture, and distillation models of DeepSeek-R1.</p>
-        <div class="link-text">View Model Report <i class="fa-solid fa-arrow-right"></i></div>
+        <p>Deep analysis of DeepSeek-R1 logic parameters. Reviewing reinforcement GRPO policies, MLA attention matrices, and distilled deep networks.</p>
+        <div class="hud-btn">[LOAD_HF_REPORT] <i class="fa-solid fa-angles-right"></i></div>
       </a>
       
       <!-- Git Guide Card -->
-      <a href="github_guide.md" class="card">
+      <a href="github_guide.md" class="card hud-card" data-sound="high">
         <div class="icon"><i class="fa-brands fa-git-alt"></i></div>
         <h2>GitHub & Git Guide</h2>
-        <p>A comprehensive markdown guide detailing how to create a GitHub account, configure local Git keys/credentials, execute commits, and deploy pages.</p>
-        <div class="link-text">View Git Guide <i class="fa-solid fa-arrow-right"></i></div>
+        <p>Operational tutorial detailing workspace Git commands, personal access keys setup, secure push credentials, and public server hosting.</p>
+        <div class="hud-btn">[READ_GIT_GUIDE] <i class="fa-solid fa-angles-right"></i></div>
       </a>
     </div>
     
     <footer>
-      &copy; 2026 Apex Developer. Prepared and submitted for AFE Projects.
+      <span>LOC.COORDINATES: C:\USERS\APEXM\SCRATCH</span>
+      <span>&copy; 2026 APEX DEVELOPER. ALL RIGHTS RESERVED.</span>
+      <span>BUILD.V: 1.0.4-HOT</span>
     </footer>
   </div>
 
+  <!-- Audio and Interactive Canvas script -->
+  <script>
+    // ==========================================================================
+    // 1. DYNAMIC RETRO SYNTH AUDIO EFFECT ON HOVER (WEB AUDIO API)
+    // ==========================================================================
+    let audioCtx = null;
+
+    function playHoverSound(type) {
+      try {
+        // Initialize Context on user interaction if blocked
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        // Synth frequencies
+        const baseFreq = type === 'high' ? 880 : 440;
+        
+        // Cyber retro synth setup
+        osc.type = 'sine'; 
+        osc.frequency.setValueAtTime(baseFreq, audioCtx.currentTime);
+        
+        // Fast pitch slide (gaming click effect)
+        osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, audioCtx.currentTime + 0.05);
+
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
+      } catch (e) {
+        console.log('AudioContext error:', e);
+      }
+    }
+
+    // Attach listeners to cards
+    const cards = document.querySelectorAll('.hud-card');
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const soundType = card.getAttribute('data-sound');
+        playHoverSound(soundType);
+      });
+    });
+
+    // ==========================================================================
+    // 2. INTERACTIVE GAME-MENU CANVAS PARTICLES
+    // ==========================================================================
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    const maxParticles = 65;
+    let mouse = { x: null, y: null, radius: 140 };
+
+    // Setup viewport bounds
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Mouse movement listeners
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    // Particle Object
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.7;
+        this.speedY = (Math.random() - 0.5) * 0.7;
+        this.baseColor = Math.random() > 0.5 ? 'rgba(0, 240, 255, 0.4)' : 'rgba(255, 0, 127, 0.4)';
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Bounce on boundaries
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+        // Mouse interaction push
+        if (mouse.x != null && mouse.y != null) {
+          let dx = this.x - mouse.x;
+          let dy = this.y - mouse.y;
+          let distance = Math.sqrt(dx*dx + dy*dy);
+          if (distance < mouse.radius) {
+            let force = (mouse.radius - distance) / mouse.radius;
+            let directionX = dx / distance;
+            let directionY = dy / distance;
+            this.x += directionX * force * 2;
+            this.y += directionY * force * 2;
+          }
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.baseColor;
+        ctx.fill();
+      }
+    }
+
+    // Init Particle array
+    function init() {
+      particles = [];
+      for (let i = 0; i < maxParticles; i++) {
+        particles.push(new Particle());
+      }
+    }
+    init();
+
+    // Line drawing and animation loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Background dark depth
+      ctx.fillStyle = 'rgba(3, 2, 6, 1)';
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+      
+      // Update & Draw particles
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      // Connect lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let dist = Math.sqrt(dx*dx + dy*dy);
+
+          if (dist < 110) {
+            // Draw connecting lines with dynamic opacity based on distance
+            let alpha = (110 - dist) / 110 * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
