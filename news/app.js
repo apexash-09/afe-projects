@@ -144,6 +144,32 @@ document.addEventListener('DOMContentLoaded', () => {
     bookmarksSidebar.classList.remove('open');
   });
 
+  // Live Refresh Button - refetch latest articles from Dev.to
+  const refreshBtn = document.getElementById('refresh-news-btn');
+  const refreshIcon = refreshBtn.querySelector('i');
+
+  refreshBtn.addEventListener('click', async () => {
+    // Spin the icon while loading
+    refreshIcon.classList.add('fa-spin');
+    refreshBtn.disabled = true;
+    refreshBtn.title = 'Refreshing...';
+
+    await fetchLiveNews();
+
+    // Stop spinning once done
+    refreshIcon.classList.remove('fa-spin');
+    refreshBtn.disabled = false;
+    refreshBtn.title = 'Refresh Live News';
+
+    // Brief green flash feedback to confirm success
+    refreshBtn.style.borderColor = '#10b981';
+    refreshBtn.style.color = '#10b981';
+    setTimeout(() => {
+      refreshBtn.style.borderColor = '';
+      refreshBtn.style.color = '';
+    }, 1500);
+  });
+
   // ==========================================================================
   // 4. DEV.TO API FETCH PIPELINE (REAL-TIME LIVE NEWS)
   // ==========================================================================
