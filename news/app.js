@@ -181,52 +181,59 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
+    // AbortController: auto-cancel fetch if it takes longer than 5 seconds
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     try {
-      // Fetch 25 latest tech/programming articles from Dev.to
-      const response = await fetch('https://dev.to/api/articles?per_page=25&state=rising');
-      if (!response.ok) throw new Error('API fetch error');
+      const response = await fetch(
+        'https://dev.to/api/articles?per_page=24&state=rising',
+        { signal: controller.signal }
+      );
+      clearTimeout(timeoutId);
+
+      if (!response.ok) throw new Error('API response error');
       const data = await response.json();
 
       if (data && data.length > 0) {
         articles = data.map((apiItem, index) => {
-          // Map tags to our categories
-          const tagsStr = apiItem.tag_list.join(' ').toLowerCase();
+          const tagsStr = (apiItem.tag_list || []).join(' ').toLowerCase();
           let category = 'tech';
-          if (tagsStr.includes('ai') || tagsStr.includes('machinelearning') || tagsStr.includes('deepseek') || tagsStr.includes('gpt')) {
+          if (tagsStr.includes('ai') || tagsStr.includes('machinelearning') || tagsStr.includes('deepseek') || tagsStr.includes('gpt') || tagsStr.includes('llm')) {
             category = 'ai';
-          } else if (tagsStr.includes('space') || tagsStr.includes('nasa') || tagsStr.includes('science')) {
+          } else if (tagsStr.includes('space') || tagsStr.includes('nasa') || tagsStr.includes('science') || tagsStr.includes('physics')) {
             category = 'space';
-          } else if (tagsStr.includes('design') || tagsStr.includes('css') || tagsStr.includes('ux') || tagsStr.includes('ui')) {
+          } else if (tagsStr.includes('design') || tagsStr.includes('css') || tagsStr.includes('ux') || tagsStr.includes('ui') || tagsStr.includes('figma')) {
             category = 'design';
           }
 
           return {
             id: apiItem.id,
-            title: apiItem.title,
+            title: apiItem.title || 'Untitled Article',
             category: category,
-            author: apiItem.user.name,
-            date: apiItem.readable_publish_date,
-            readTime: `${apiItem.reading_time_minutes} min read`,
-            excerpt: apiItem.description,
-            coverImage: apiItem.cover_image,
+            author: (apiItem.user && apiItem.user.name) ? apiItem.user.name : 'Anonymous',
+            date: apiItem.readable_publish_date || 'Recently',
+            readTime: `${apiItem.reading_time_minutes || 3} min read`,
+            excerpt: apiItem.description || 'Click to read the full article.',
+            coverImage: apiItem.cover_image || null,
             gradClass: categoryGradients[category],
             icon: categoryIcons[category],
-            isFeatured: index === 0, // Top article is spotlight
-            isTrending: index > 0 && index < 4 // Next 3 are trending
+            isFeatured: index === 0,
+            isTrending: index > 0 && index < 4
           };
         });
 
-        // Dynamic marquee items from loaded articles
         headlines = articles.slice(0, 6).map(a => a.title);
       } else {
         useFallback();
       }
     } catch (e) {
-      console.warn("Dev.to API failed, using high-quality local feeds.", e);
+      clearTimeout(timeoutId);
+      console.warn('Dev.to API unavailable, loading local feeds.', e.message);
       useFallback();
     }
 
-    // Refresh display
+    // Always render — never stays stuck
     initTicker();
     renderFeatured();
     renderTrending();
