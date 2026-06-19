@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
 
     // Fetch full body HTML from single article endpoint if it is a Dev.to article
-    if (id < 9000) { // Fallback articles have IDs in 9990s
+    if (!article.content) { // Dev.to live articles do not have static content fields
       try {
         const res = await fetch(`https://dev.to/api/articles/${id}`);
         if (!res.ok) throw new Error('API fetch error');
