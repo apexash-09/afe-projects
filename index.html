@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFE Projects Hub | Apex Developer</title>
+  <meta name="description" content="Central hub for AFE projects: E-Profile, News Portal, Hugging Face Model Report, and GitHub Guide.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg: #09060f;
+      --card-bg: rgba(18, 12, 33, 0.45);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #ffffff;
+      --text-muted: #a3a3a3;
+      --accent: #8b5cf6;
+      --accent-glow: rgba(139, 92, 246, 0.4);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 40px 20px;
+    }
+    
+    /* Blurred Background lights */
+    .glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background-color: var(--accent);
+      filter: blur(130px);
+      opacity: 0.15;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .glow-1 { top: -100px; left: -100px; }
+    .glow-2 { bottom: -100px; right: -100px; }
+    
+    .container {
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #a78bfa, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+    
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: left;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(139, 92, 246, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-glow);
+    }
+    
+    .icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: #c084fc;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+    
+    .card:hover .icon {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      flex-grow: 1;
+      margin-bottom: 20px;
+    }
+    
+    .link-text {
+      color: #c084fc;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+    
+    .link-text i {
+      transition: transform 0.2s;
+    }
+    
+    .card:hover .link-text i {
+      transform: translateX(4px);
+    }
+    
+    footer {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <div class="container">
+    <h1>AFE Projects Hub</h1>
+    <p class="subtitle">Welcome to the central gateway of my submitted software and documentation projects.</p>
+    
+    <div class="grid">
+      <!-- Portfolio Card -->
+      <a href="portfolio/index.html" class="card">
+        <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
+        <h2>E-Profile Portfolio</h2>
+        <p>A premium interactive portfolio featuring glassmorphic designs, custom scroll animations, project filters, and a real-time styled resume builder with PDF export capability.</p>
+        <div class="link-text">Launch Portfolio <i class="fa-solid fa-arrow-right"></i></div>
+      </a>
+      
+      <!-- News Card -->
+      <a href="news/index.html" class="card">
+        <div class="icon"><i class="fa-regular fa-newspaper"></i></div>
+        <h2>Chronicle News Portal</h2>
+        <p>A beautiful tech and science news portal featuring a breaking news ticker, live client-side search parsing, persistent local storage bookmarks, and dynamic article modals.</p>
+        <div class="link-text">Launch News Portal <i class="fa-solid fa-arrow-right"></i></div>
+      </a>
+      
+      <!-- HF Report Card -->
+      <a href="huggingface_model_report.md" class="card">
+        <div class="icon"><i class="fa-solid fa-brain"></i></div>
+        <h2>Hugging Face Report</h2>
+        <p>A detailed technical review analyzing the datasets, GRPO reinforcement learning steps, MLA attention architecture, and distillation models of DeepSeek-R1.</p>
+        <div class="link-text">View Model Report <i class="fa-solid fa-arrow-right"></i></div>
+      </a>
+      
+      <!-- Git Guide Card -->
+      <a href="github_guide.md" class="card">
+        <div class="icon"><i class="fa-brands fa-git-alt"></i></div>
+        <h2>GitHub & Git Guide</h2>
+        <p>A comprehensive markdown guide detailing how to create a GitHub account, configure local Git keys/credentials, execute commits, and deploy pages.</p>
+        <div class="link-text">View Git Guide <i class="fa-solid fa-arrow-right"></i></div>
+      </a>
+    </div>
+    
+    <footer>
+      &copy; 2026 Apex Developer. Prepared and submitted for AFE Projects.
+    </footer>
+  </div>
+
+</body>
+</html>
