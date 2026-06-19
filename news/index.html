@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chronicle | Modern Tech & Science News Portal</title>
+  <meta name="description" content="Chronicle is a modern tech and science news portal featuring real-time search, bookmarks, customizable themes, and live ticker updates.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-light">
+
+  <!-- Live Simulation News Ticker Banner -->
+  <div class="news-ticker">
+    <div class="ticker-label"><i class="fa-solid fa-bolt"></i> Breaking</div>
+    <div class="ticker-wrapper">
+      <div id="ticker-content" class="ticker-content">
+        <!-- Loaded dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header id="news-header">
+    <div class="container navbar">
+      <a href="#" class="logo">
+        <span class="logo-accent">C</span>hronicle
+      </a>
+
+      <!-- Search Bar -->
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="news-search" placeholder="Search news, topics, tech...">
+      </div>
+
+      <div class="header-actions">
+        <!-- Bookmark Feed Button Toggle -->
+        <button id="bookmark-toggle-btn" class="icon-btn" title="View Bookmarks" aria-label="Toggle Bookmarks">
+          <i class="fa-solid fa-bookmark"></i>
+          <span id="bookmark-count" class="badge-count">0</span>
+        </button>
+
+        <!-- Dark/Light Theme Button Toggle -->
+        <button id="theme-toggle-btn" class="icon-btn" title="Toggle Light/Dark Mode" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- News Dashboard Layout -->
+  <main class="container main-layout">
+    
+    <!-- Top Row: Spotlight and Trending Stories -->
+    <section class="spotlight-section">
+      <div class="spotlight-grid">
+        
+        <!-- Hero Spotlight Card (Big featured story) -->
+        <div id="hero-spotlight" class="spotlight-hero-card">
+          <!-- Loaded dynamically via JS -->
+        </div>
+
+        <!-- Trending Sidebar -->
+        <aside class="trending-sidebar">
+          <h3 class="sidebar-title"><i class="fa-solid fa-fire text-orange"></i> Trending Today</h3>
+          <div id="trending-list" class="trending-list">
+            <!-- Loaded dynamically via JS -->
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- Main Section: Filters and Card Grid -->
+    <section class="news-feed-section">
+      <!-- Category Tabs Navigation -->
+      <div class="feed-header">
+        <div class="category-tabs">
+          <button class="cat-tab active" data-category="all">All News</button>
+          <button class="cat-tab" data-category="tech">Technology</button>
+          <button class="cat-tab" data-category="ai">AI & ML</button>
+          <button class="cat-tab" data-category="space">Space</button>
+          <button class="cat-tab" data-category="design">UX Design</button>
+        </div>
+      </div>
+
+      <!-- Main News Cards Grid -->
+      <div id="news-grid" class="news-grid">
+        <!-- Cards loaded dynamically via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bookmarks Sidebar Overlay -->
+  <div id="bookmarks-sidebar" class="bookmarks-sidebar">
+    <div class="bookmarks-header">
+      <h3><i class="fa-solid fa-bookmark"></i> Saved Stories</h3>
+      <button id="bookmarks-close-btn" class="icon-btn" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="bookmarks-list" class="bookmarks-list">
+      <!-- Bookmarked stories loaded dynamically -->
+    </div>
+  </div>
+
+  <!-- Dynamic Article Detail Modal Overlay -->
+  <div id="article-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button id="modal-close-btn" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-image-wrapper">
+        <div id="modal-img-placeholder" class="modal-img-placeholder">
+          <!-- Styled CSS gradients loaded dynamically -->
+        </div>
+      </div>
+      <div class="modal-content">
+        <div class="modal-meta">
+          <span id="modal-tag" class="modal-tag">Category</span>
+          <span id="modal-read-time" class="modal-read-time">5 min read</span>
+          <span id="modal-date" class="modal-date">Date</span>
+        </div>
+        <h2 id="modal-title" class="modal-title">Article Title</h2>
+        <div class="modal-author-row">
+          <div class="author-info">
+            <div class="author-avatar"><i class="fa-solid fa-user-pen"></i></div>
+            <div>
+              <strong id="modal-author">Author Name</strong>
+              <small>Chronicle Contributor</small>
+            </div>
+          </div>
+          <button id="modal-bookmark-btn" class="btn btn-outline btn-sm"><i class="fa-regular fa-bookmark"></i> Save</button>
+        </div>
+        <div id="modal-body" class="modal-body">
+          <!-- Article text goes here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content text-center">
+      <p>&copy; 2026 Chronicle Media. All rights reserved. Created for AFE Projects.</p>
+      <div class="footer-links">
+        <a href="#">About Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">API Documentation</a>
+        <a href="#">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

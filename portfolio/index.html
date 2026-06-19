@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Developer | Creative Full-Stack Engineer Portfolio</title>
+  <meta name="description" content="Portfolio of Apex Developer, a Creative Full-Stack Engineer specializing in high-performance web applications and beautiful modern user experiences.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-purple">
+
+  <!-- Ambient Blurred Background Lights -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Header & Navigation -->
+  <header id="main-header">
+    <div class="container navbar">
+      <a href="#" class="logo">
+        <span class="logo-brackets">&lt;</span>
+        <span class="logo-text">Apex.Dev</span>
+        <span class="logo-brackets">/&gt;</span>
+      </a>
+
+      <nav id="nav-menu">
+        <a href="#about" class="nav-link active">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#resume-builder" class="nav-link">Resume Builder</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Selector Toggle -->
+        <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle Theme Options" title="Change Theme Palette">
+          <i class="fa-solid fa-palette"></i>
+        </button>
+        <div id="theme-dropdown" class="theme-dropdown hidden">
+          <button class="theme-opt purple active" data-theme="purple"><span></span> Purple Neon</button>
+          <button class="theme-opt mint" data-theme="mint"><span></span> Emerald Mint</button>
+          <button class="theme-opt amber" data-theme="amber"><span></span> Cyber Amber</button>
+        </div>
+
+        <button id="mobile-menu-toggle" class="icon-btn mobile-only" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div id="mobile-nav-overlay" class="mobile-nav-overlay">
+    <button id="mobile-menu-close" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+    <nav class="mobile-nav-links">
+      <a href="#about" class="mobile-link">About</a>
+      <a href="#skills" class="mobile-link">Skills</a>
+      <a href="#projects" class="mobile-link">Projects</a>
+      <a href="#experience" class="mobile-link">Experience</a>
+      <a href="#resume-builder" class="mobile-link">Resume Builder</a>
+      <a href="#contact" class="mobile-link">Contact</a>
+    </nav>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge fade-in">
+            <span class="badge-dot"></span> Available for Freelance & Remote Work
+          </div>
+          <h1 class="hero-title fade-in">
+            Crafting Digital <span class="text-gradient">Masterpieces</span> With Code & Design
+          </h1>
+          <p class="hero-subtitle fade-in">
+            Hi, I'm a Creative Full-Stack Developer. I build immersive, lightning-fast web applications that balance gorgeous aesthetics with robust engineering.
+          </p>
+          <div class="hero-cta fade-in">
+            <a href="#projects" class="btn btn-primary">View My Work <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#contact" class="btn btn-outline">Let's Talk <i class="fa-solid fa-comments"></i></a>
+          </div>
+          <div class="hero-stats fade-in">
+            <div class="stat-item">
+              <span class="stat-num">5+</span>
+              <span class="stat-label">Years Exp</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">40+</span>
+              <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">99%</span>
+              <span class="stat-label">Client Satisfaction</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual fade-in">
+          <div class="avatar-container">
+            <div class="avatar-border-glow"></div>
+            <!-- The generated developer avatar image will go here -->
+            <img src="avatar.png" alt="Developer Avatar" id="developer-avatar-img" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80'">
+            <div class="floating-tech-card tech-card-1">
+              <i class="fa-brands fa-react text-react"></i>
+              <span>React Expert</span>
+            </div>
+            <div class="floating-tech-card tech-card-2">
+              <i class="fa-brands fa-node-js text-node"></i>
+              <span>Node.js API</span>
+            </div>
+            <div class="floating-tech-card tech-card-3">
+              <i class="fa-solid fa-gears text-system"></i>
+              <span>AI Integration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#about" class="scroll-indicator" aria-label="Scroll Down">
+        <span class="mouse">
+          <span class="wheel"></span>
+        </span>
+      </a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="scroll-trigger">
+      <div class="container">
+        <h2 class="section-title text-center"><span class="text-gradient">About Me</span></h2>
+        <p class="section-desc text-center">My background, philosophy, and passion for the open web.</p>
+
+        <div class="about-grid">
+          <div class="about-text glass-card">
+            <h3>Who I Am</h3>
+            <p>
+              I am a web artisan who sits at the intersection of design and engineering. I don't just write functional code; I craft digital environments that evoke emotions. With a deep foundation in computer science and an eye for typography, layouts, and animations, I help brands stand out.
+            </p>
+            <p>
+              My journey started with hacking HTML templates, which eventually led to building enterprise-grade SaaS platforms, AI-driven tools, and engaging frontend animations. I believe clean architecture, SEO, web accessibility, and performance are not optional add-ons, but foundational building blocks of the web.
+            </p>
+            <div class="about-interests">
+              <div class="interest-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> UI/UX Motion</div>
+              <div class="interest-tag"><i class="fa-solid fa-server"></i> Serverless Architecture</div>
+              <div class="interest-tag"><i class="fa-solid fa-brain"></i> AI Engineering</div>
+              <div class="interest-tag"><i class="fa-solid fa-bolt"></i> Jamstack / Static Sites</div>
+            </div>
+          </div>
+
+          <div class="about-cards-grid">
+            <div class="info-card glass-card">
+              <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <h4>Education & Training</h4>
+              <p>B.S. in Software Engineering, specialized in Interactive Systems Design & Cloud Infrastructure.</p>
+            </div>
+            <div class="info-card glass-card">
+              <div class="card-icon"><i class="fa-solid fa-terminal"></i></div>
+              <h4>Design Philosophy</h4>
+              <p>Minimalist structure, high-fidelity micro-interactions, responsive fluid grids, and accessibility first.</p>
+            </div>
+            <div class="info-card glass-card">
+              <div class="card-icon"><i class="fa-solid fa-code-merge"></i></div>
+              <h4>Open Source</h4>
+              <p>Active GitHub contributor. Created utility libraries for CSS grid animations and state management.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="scroll-trigger">
+      <div class="container">
+        <h2 class="section-title text-center">Technical <span class="text-gradient">Arsenal</span></h2>
+        <p class="section-desc text-center">Languages, frameworks, systems, and tools I use to bring ideas to life.</p>
+
+        <div class="skills-grid">
+          <!-- Skill Category: Frontend -->
+          <div class="skills-card glass-card">
+            <h3 class="skill-category-title"><i class="fa-solid fa-laptop-code"></i> Frontend Engineering</h3>
+            <div class="skill-list">
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>HTML5 & Semantic Markup</span>
+                  <span>95%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>CSS3 / SCSS / Flex & Grid</span>
+                  <span>90%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>JavaScript (ES6+) & TypeScript</span>
+                  <span>92%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 92%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>React.js / Next.js / Vue.js</span>
+                  <span>88%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 88%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill Category: Backend & Database -->
+          <div class="skills-card glass-card">
+            <h3 class="skill-category-title"><i class="fa-solid fa-database"></i> Backend & Database</h3>
+            <div class="skill-list">
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>Node.js / Express</span>
+                  <span>85%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>Python / FastAPI / Django</span>
+                  <span>80%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>SQL (PostgreSQL, MySQL)</span>
+                  <span>82%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 82%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>MongoDB / Redis / Firestore</span>
+                  <span>86%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 86%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skill Category: Systems & Tools -->
+          <div class="skills-card glass-card">
+            <h3 class="skill-category-title"><i class="fa-solid fa-screwdriver-wrench"></i> Systems & DevOps</h3>
+            <div class="skill-list">
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>Git / GitHub Workflows</span>
+                  <span>95%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>Docker Containers</span>
+                  <span>78%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 78%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>Vercel / Netlify / AWS Hosting</span>
+                  <span>85%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+              </div>
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span>Linux Server Admin</span>
+                  <span>75%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 75%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="scroll-trigger">
+      <div class="container">
+        <h2 class="section-title text-center">Featured <span class="text-gradient">Creations</span></h2>
+        <p class="section-desc text-center">A handpicked selection of applications demonstrating my engineering capabilities.</p>
+
+        <!-- Project Filters -->
+        <div class="project-filters">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="frontend">Frontend</button>
+          <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+          <button class="filter-btn" data-filter="ai">AI / Web3</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+          <!-- Project 1: News Portal -->
+          <div class="project-card glass-card" data-category="frontend">
+            <div class="project-img-wrapper">
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a href="../news/index.html" class="project-link-btn" title="Live Preview"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com" class="project-link-btn" title="GitHub Code"><i class="fa-brands fa-github"></i></a>
+                </div>
+              </div>
+              <!-- Placeholder styled gradient -->
+              <div class="project-img-placeholder p-gradient-1">
+                <i class="fa-regular fa-newspaper"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-tag">Frontend / API</span>
+              <h4>Chronicle Live News Portal</h4>
+              <p>A premium real-time news application featuring custom article routing, bookmarked feeds, reading metrics, and simulated live alerts.</p>
+              <div class="project-tech">
+                <span>HTML5</span>
+                <span>Vanilla CSS</span>
+                <span>Vanilla JS</span>
+                <span>Local Storage</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2: AI Coding Assistant -->
+          <div class="project-card glass-card" data-category="ai">
+            <div class="project-img-wrapper">
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a href="#" class="project-link-btn" title="Live Preview"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com" class="project-link-btn" title="GitHub Code"><i class="fa-brands fa-github"></i></a>
+                </div>
+              </div>
+              <div class="project-img-placeholder p-gradient-2">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-tag">AI Engineering</span>
+              <h4>CodeSynthetix AI Copilot</h4>
+              <p>An interactive code assistant utilizing LLMs to offer contextual autocomplete, refactoring recommendations, and inline unit testing.</p>
+              <div class="project-tech">
+                <span>Next.js</span>
+                <span>FastAPI</span>
+                <span>Ollama API</span>
+                <span>WebSockets</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3: Glassmorphic Finance Dashboard -->
+          <div class="project-card glass-card" data-category="fullstack">
+            <div class="project-img-wrapper">
+              <div class="project-overlay">
+                <div class="project-links">
+                  <a href="#" class="project-link-btn" title="Live Preview"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                  <a href="https://github.com" class="project-link-btn" title="GitHub Code"><i class="fa-brands fa-github"></i></a>
+                </div>
+              </div>
+              <div class="project-img-placeholder p-gradient-3">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-tag">Full-Stack</span>
+              <h4>Aether Finance Tracker</h4>
+              <p>A gorgeous multi-currency banking dashboard offering animated visual charts, secure CSV uploads, and recursive budgeting alerts.</p>
+              <div class="project-tech">
+                <span>React</span>
+                <span>Chart.js</span>
+                <span>Node.js</span>
+                <span>MongoDB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Timeline Section -->
+    <section id="experience" class="scroll-trigger">
+      <div class="container">
+        <h2 class="section-title text-center">Professional <span class="text-gradient">Journey</span></h2>
+        <p class="section-desc text-center">My work history and achievements in software engineering.</p>
+
+        <div class="timeline">
+          <div class="timeline-bar"></div>
+
+          <!-- Timeline Item 1 -->
+          <div class="timeline-item left">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <span class="time-period">2024 - Present</span>
+              <h4>Senior Full-Stack Engineer</h4>
+              <h5 class="timeline-org">Stellar Tech Systems</h5>
+              <p>Led development on high-traffic React portals, improved site performance scores by 35% using code-splitting, and integrated LLM chat agents for automated user assistance workflows.</p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div class="timeline-item right">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <span class="time-period">2022 - 2024</span>
+              <h4>Frontend Developer</h4>
+              <h5 class="timeline-org">PixelPerfect Web Solutions</h5>
+              <p>Designed and built highly interactive, pixel-perfect user interfaces, custom landing pages, and interactive dashboards. Managed CSS design systems and accessibility compliance (WCAG AA).</p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div class="timeline-item left">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass-card">
+              <span class="time-period">2021 - 2022</span>
+              <h4>Software Engineering Intern</h4>
+              <h5 class="timeline-org">Nexa Cloud Technologies</h5>
+              <p>Developed back-end REST APIs using Node.js and Express, configured containerized deployments with Docker, and implemented unit tests using Jest to maintain 90%+ code coverage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resume Builder Section (Unique premium interactive feature) -->
+    <section id="resume-builder" class="scroll-trigger">
+      <div class="container">
+        <h2 class="section-title text-center">Dynamic <span class="text-gradient">Resume Builder</span></h2>
+        <p class="section-desc text-center">Build and download your own custom styled CV in real-time right from this page!</p>
+
+        <div class="builder-grid">
+          <!-- Form Input Fields -->
+          <div class="builder-inputs glass-card">
+            <h3>Configure Your Details</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="res-name">Full Name</label>
+                <input type="text" id="res-name" value="Apex Developer">
+              </div>
+              <div class="form-group">
+                <label for="res-title">Professional Title</label>
+                <input type="text" id="res-title" value="Creative Full-Stack Engineer">
+              </div>
+              <div class="form-group">
+                <label for="res-email">Email Address</label>
+                <input type="email" id="res-email" value="apex.dev@example.com">
+              </div>
+              <div class="form-group">
+                <label for="res-phone">Phone Number</label>
+                <input type="text" id="res-phone" value="+1 (555) 123-4567">
+              </div>
+              <div class="form-group full-width">
+                <label for="res-summary">Professional Summary</label>
+                <textarea id="res-summary" rows="4">Passionate Full-Stack Developer with over 5 years of experience building scalable, visually striking web apps. Strong expert in React, Node.js, and UX animation.</textarea>
+              </div>
+              <div class="form-group full-width">
+                <label for="res-skills">Skills (comma separated)</label>
+                <input type="text" id="res-skills" value="HTML5, CSS3, JavaScript, TypeScript, React.js, Next.js, Node.js, REST APIs, Git, PostgreSQL, MongoDB, UI/UX Design">
+              </div>
+            </div>
+            <div class="builder-actions">
+              <button id="update-resume-btn" class="btn btn-primary"><i class="fa-solid fa-rotate"></i> Update Preview</button>
+              <button id="print-resume-btn" class="btn btn-outline"><i class="fa-solid fa-file-pdf"></i> Save / Print PDF</button>
+            </div>
+          </div>
+
+          <!-- Real-Time CV Preview -->
+          <div class="builder-preview-wrapper glass-card">
+            <h3>Live CV Preview</h3>
+            <div id="resume-sheet" class="resume-sheet">
+              <div class="resume-header">
+                <h2 id="view-res-name">Apex Developer</h2>
+                <h4 id="view-res-title">Creative Full-Stack Engineer</h4>
+                <div class="resume-contacts">
+                  <span id="view-res-email"><i class="fa-regular fa-envelope"></i> apex.dev@example.com</span>
+                  <span id="view-res-phone"><i class="fa-solid fa-phone"></i> +1 (555) 123-4567</span>
+                </div>
+              </div>
+              <div class="resume-body">
+                <div class="resume-section">
+                  <h5>Profile Summary</h5>
+                  <p id="view-res-summary">Passionate Full-Stack Developer with over 5 years of experience building scalable, visually striking web apps. Strong expert in React, Node.js, and UX animation.</p>
+                </div>
+                <div class="resume-section">
+                  <h5>Expertise & Skills</h5>
+                  <div id="view-res-skills" class="resume-skills-grid">
+                    <!-- Loaded dynamically via JS -->
+                  </div>
+                </div>
+                <div class="resume-section">
+                  <h5>Work Experience</h5>
+                  <div class="resume-job">
+                    <strong>Senior Full-Stack Engineer</strong> — <span>Stellar Tech Systems (2024 - Present)</span>
+                    <p>Led development on high-traffic React portals and integrated artificial intelligence chat widgets.</p>
+                  </div>
+                  <div class="resume-job">
+                    <strong>Frontend Developer</strong> — <span>PixelPerfect Web Solutions (2022 - 2024)</span>
+                    <p>Designed and built highly interactive, pixel-perfect user interfaces and custom CSS design systems.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="scroll-trigger">
+      <div class="container">
+        <h2 class="section-title text-center">Get In <span class="text-gradient">Touch</span></h2>
+        <p class="section-desc text-center">Interested in working together or just want to chat? Send a message!</p>
+
+        <div class="contact-grid">
+          <!-- Contact Info -->
+          <div class="contact-info glass-card">
+            <h3>Contact Details</h3>
+            <p>Feel free to reach out. I typically respond within 24 hours.</p>
+
+            <div class="contact-methods">
+              <div class="method-item">
+                <div class="method-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div class="method-detail">
+                  <span>Email</span>
+                  <a href="mailto:apex.dev@example.com">apex.dev@example.com</a>
+                </div>
+              </div>
+              <div class="method-item">
+                <div class="method-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <div class="method-detail">
+                  <span>Location</span>
+                  <span>San Francisco, CA (Remote Friendly)</span>
+                </div>
+              </div>
+              <div class="method-item">
+                <div class="method-icon"><i class="fa-brands fa-github"></i></div>
+                <div class="method-detail">
+                  <span>GitHub</span>
+                  <a href="https://github.com" target="_blank" rel="noopener noreferrer">github.com/apex-dev</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <div class="contact-form-wrapper glass-card">
+            <h3>Send Message</h3>
+            <form id="portfolio-contact-form" novalidate>
+              <div class="form-group">
+                <label for="contact-name">Name</label>
+                <input type="text" id="contact-name" placeholder="John Doe" required>
+                <span class="error-msg">Please enter your name.</span>
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" placeholder="john@example.com" required>
+                <span class="error-msg">Please enter a valid email address.</span>
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" rows="5" placeholder="How can I help you?" required></textarea>
+                <span class="error-msg">Please enter a message.</span>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+            <div id="contact-success-alert" class="alert-box success-alert hidden">
+              <i class="fa-solid fa-circle-check"></i> Message sent successfully! I will contact you soon.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content text-center">
+      <p>&copy; 2026 Apex Developer. Built with passion and clean code.</p>
+      <div class="footer-socials">
+        <a href="https://github.com" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://linkedin.com" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://twitter.com" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
