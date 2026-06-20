@@ -149,17 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const refreshIcon = refreshBtn.querySelector('i');
 
   refreshBtn.addEventListener('click', async () => {
-    // Spin the icon while loading
-    refreshIcon.classList.add('fa-spin');
-    refreshBtn.disabled = true;
-    refreshBtn.title = 'Refreshing...';
-
     await fetchLiveNews();
-
-    // Stop spinning once done
-    refreshIcon.classList.remove('fa-spin');
-    refreshBtn.disabled = false;
-    refreshBtn.title = 'Refresh Live News';
 
     // Brief green flash feedback to confirm success
     refreshBtn.style.borderColor = '#10b981';
@@ -174,12 +164,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. DEV.TO API FETCH PIPELINE (REAL-TIME LIVE NEWS)
   // ==========================================================================
   async function fetchLiveNews() {
-    newsGrid.innerHTML = `
-      <div style="grid-column: span 3; text-align: center; padding: 50px;">
-        <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 3rem; color: var(--color-accent); margin-bottom: 15px;"></i>
-        <p>Loading real-time news streams...</p>
-      </div>
-    `;
+    // If we have no articles yet, show the initial loading state in the grid
+    if (articles.length === 0) {
+      newsGrid.innerHTML = `
+        <div style="grid-column: span 3; text-align: center; padding: 50px;">
+          <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 3rem; color: var(--color-accent); margin-bottom: 15px;"></i>
+          <p>Loading real-time news streams...</p>
+        </div>
+      `;
+    }
+
+    // Spin the refresh icon to indicate updating in the background
+    if (refreshIcon) {
+      refreshIcon.classList.add('fa-spin');
+    }
+    if (refreshBtn) {
+      refreshBtn.disabled = true;
+      refreshBtn.title = 'Refreshing...';
+    }
 
     // AbortController: auto-cancel fetch if it takes longer than 5 seconds
     const controller = new AbortController();
@@ -225,12 +227,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         headlines = articles.slice(0, 6).map(a => a.title);
       } else {
-        useFallback();
+        if (articles.length === 0) {
+          useFallback();
+        }
       }
     } catch (e) {
       clearTimeout(timeoutId);
       console.warn('Dev.to API unavailable, loading local feeds.', e.message);
-      useFallback();
+      if (articles.length === 0) {
+        useFallback();
+      }
+    } finally {
+      // Stop spinning once done
+      if (refreshIcon) {
+        refreshIcon.classList.remove('fa-spin');
+      }
+      if (refreshBtn) {
+        refreshBtn.disabled = false;
+        refreshBtn.title = 'Refresh Live News';
+      }
     }
 
     // Always render — never stays stuck
@@ -266,12 +281,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const featured = articles.find(a => a.isFeatured);
     if (!featured) return;
 
+    const currentSpotlight = document.getElementById('hero-spotlight');
+    if (!currentSpotlight) return;
+
     // Use cover image if provided, else use CSS gradient background
     const bgStyle = featured.coverImage 
       ? `background-image: url('${featured.coverImage}'); background-size: cover; background-position: center;` 
       : '';
 
-    heroSpotlight.innerHTML = `
+    currentSpotlight.innerHTML = `
       <div class="hero-overlay"></div>
       <div class="hero-bg ${featured.coverImage ? '' : featured.gradClass}" style="${bgStyle}"></div>
       <div class="hero-content">
@@ -285,8 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     // Reset old listeners
-    const newSpotlight = heroSpotlight.cloneNode(true);
-    heroSpotlight.parentNode.replaceChild(newSpotlight, heroSpotlight);
+    const newSpotlight = currentSpotlight.cloneNode(true);
+    currentSpotlight.parentNode.replaceChild(newSpotlight, currentSpotlight);
     newSpotlight.addEventListener('click', () => {
       openArticleModal(featured.id);
     });
@@ -571,5 +589,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 7. INITIALIZE API FETCH
   // ==========================================================================
+  // Load fallback articles instantly first
+  useFallback();
+  initTicker();
+  renderFeatured();
+  renderTrending();
+  renderNewsGrid();
+  renderBookmarks();
+
+  // Fetch updated news in background
   fetchLiveNews();
 });
