@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Space Hub | 3D Interactive Portfolio</title>
+  <meta name="description" content="3D interactive portfolio modeled after Spline animations. Showcasing Python, C, networking, and TryHackMe security labs.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Starry Background Canvas -->
+  <canvas id="starfield"></canvas>
+
+  <!-- Ambient Glow Effects -->
+  <div class="glow-orb glow-cyan"></div>
+  <div class="glow-orb glow-purple"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container navbar">
+      <a href="../index.html" class="logo">
+        <span class="bracket">&lt;</span> Apex.3D <span class="bracket">/&gt;</span>
+      </a>
+      <nav>
+        <a href="../index.html" class="nav-link">Main Portal</a>
+        <a href="../portfolio/index.html" class="nav-link">Full Portfolio</a>
+        <a href="../news/index.html" class="nav-link">News Portal</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="mailto:apex.student@reva.edu.in" class="cta-btn-header"><i class="fa-solid fa-envelope"></i> Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Viewport Container -->
+  <main class="container main-content">
+    
+    <!-- Hero Header -->
+    <div class="hero-header">
+      <h1 class="glow-text">TO BOOST CSIT & SECURITY</h1>
+      <p class="subtitle">An interactive 3D gateway demonstrating programming, networking, and TryHackMe hacking laboratory configurations.</p>
+      <div class="header-line"></div>
+    </div>
+
+    <!-- 3D Scene Viewport -->
+    <section class="scene-viewport">
+      <div class="scene-container" id="interactive-scene">
+        
+        <!-- Rotating 3D Rings & Central Orb -->
+        <div class="orbit-3d-wrapper">
+          
+          <!-- Outer Tilted Ring -->
+          <div class="ring outer-ring">
+            <div class="orbiting-orb"></div>
+          </div>
+
+          <!-- Middle Tilted Ring (Counter-rotating) -->
+          <div class="ring middle-ring"></div>
+
+          <!-- Central Portfolio Ring Card -->
+          <div class="central-portfolio-card">
+            <div class="card-inner">
+              <i class="fa-solid fa-fingerprint fingerprint-icon"></i>
+              <span class="title-text">Portfolio</span>
+            </div>
+            <div class="card-glow"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Glassmorphic Skill/Project Grid Buttons -->
+    <section class="grid-section">
+      <div class="grid-container">
+        
+        <!-- Row 1: Languages & Basic Stacks -->
+        <div class="grid-row">
+          
+          <!-- Python Card -->
+          <div class="grid-card" onclick="openDetails('python')">
+            <div class="card-content">
+              <div class="icon-box python-icon"><i class="fa-brands fa-python"></i></div>
+              <span class="card-title">Python</span>
+            </div>
+          </div>
+
+          <!-- C Card -->
+          <div class="grid-card" onclick="openDetails('c-lang')">
+            <div class="card-content">
+              <div class="icon-box c-icon"><i class="fa-solid fa-code"></i></div>
+              <span class="card-title">C Lang</span>
+            </div>
+          </div>
+
+          <!-- HTML5 / CSS Card -->
+          <div class="grid-card" onclick="openDetails('web')">
+            <div class="card-content">
+              <div class="icon-box html-icon"><i class="fa-brands fa-html5"></i></div>
+              <span class="card-title">HTML / CSS</span>
+            </div>
+          </div>
+
+          <!-- Git / GitHub Card -->
+          <div class="grid-card" onclick="openDetails('git')">
+            <div class="card-content">
+              <div class="icon-box git-icon"><i class="fa-brands fa-github"></i></div>
+              <span class="card-title">Git & GitHub</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Row 2: Academics & Labs -->
+        <div class="grid-row">
+          
+          <!-- TryHackMe Card -->
+          <div class="grid-card" onclick="openDetails('thm')">
+            <div class="card-content">
+              <div class="icon-box thm-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <span class="card-title">TryHackMe</span>
+            </div>
+          </div>
+
+          <!-- Networking Card -->
+          <div class="grid-card" onclick="openDetails('networking')">
+            <div class="card-content">
+              <div class="icon-box net-icon"><i class="fa-solid fa-network-wired"></i></div>
+              <span class="card-title">Networking</span>
+            </div>
+          </div>
+
+          <!-- Reva Uni Card -->
+          <div class="grid-card" onclick="openDetails('reva')">
+            <div class="card-content">
+              <div class="icon-box reva-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <span class="card-title">Reva Uni</span>
+            </div>
+          </div>
+
+          <!-- Languages Card -->
+          <div class="grid-card" onclick="openDetails('languages')">
+            <div class="card-content">
+              <div class="icon-box lang-icon"><i class="fa-solid fa-language"></i></div>
+              <span class="card-title">Languages</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Detail Modal -->
+  <div id="details-modal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeDetails()"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modal-content-placeholder">
+        <!-- Content gets injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content text-center">
+      <p>&copy; 2026 Apex.3D Portfolio. Designed for CSE & Security.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
