@@ -3,543 +3,984 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AFE Projects Hub | Gaming HUD Gateway</title>
-  <meta name="description" content="Futuristic gaming HUD portal linking to portfolio, news, and technical reports.">
+  <title>Ankita Baler | AFE Projects Hub</title>
+  <meta name="description" content="3D interactive gateway and dashboard linking to AFE coursework projects. Modeled after Spline dynamics.">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --bg: #030206;
-      --accent-neon: #00f0ff; /* Cyber Cyan */
-      --accent-magenta: #ff007f; /* Neon Pink */
-      --accent-purple: #8b5cf6;
-      --card-bg: rgba(9, 6, 18, 0.7);
-      --border-neon: rgba(0, 240, 255, 0.25);
-      --text: #ffffff;
-      --text-muted: #808d9a;
+      --bg-color: #060608;
+      --panel-bg: rgba(13, 13, 18, 0.65);
+      --border-glow: rgba(168, 85, 247, 0.25);
+      --color-text-main: #f3f4f6;
+      --color-text-sub: #9ca3af;
+      --color-accent-purple: #a855f7;
+      --color-accent-cyan: #06b6d4;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Fira Code', monospace;
     }
-    
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      user-select: none;
     }
-    
+
     body {
-      font-family: 'Share Tech Mono', monospace;
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      position: relative;
+      background-color: var(--bg-color);
+      color: var(--color-text-main);
+      font-family: var(--font-body);
       overflow-x: hidden;
-      overflow-y: auto;
-      padding: 60px 20px;
+      min-height: 100vh;
+      position: relative;
     }
-    
-    /* Interactive Background Canvas */
-    #particle-canvas {
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Starry Background */
+    #starfield {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 1;
-      pointer-events: all;
+      z-index: -2;
+      pointer-events: none;
     }
-    
-    /* CRT Scanlines Overlay */
-    .scanlines {
+
+    /* Glowing ambient orbs */
+    .glow-orb {
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(140px);
+      opacity: 0.1;
+      z-index: -1;
+      pointer-events: none;
+      animation: float-glow 25s ease-in-out infinite alternate;
+    }
+    .glow-cyan {
+      background: var(--color-accent-cyan);
+      top: 10%;
+      left: -5%;
+    }
+    .glow-purple {
+      background: var(--color-accent-purple);
+      bottom: 10%;
+      right: -5%;
+      animation-delay: -5s;
+    }
+
+    @keyframes float-glow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(50px, 30px) scale(1.1); }
+    }
+
+    /* Navigation header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(6, 6, 8, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .navbar {
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--color-text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .bracket {
+      color: var(--color-accent-purple);
+      font-family: var(--font-mono);
+      font-weight: 500;
+    }
+
+    .cta-btn-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--color-text-main);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn-header:hover {
+      background: var(--color-text-main);
+      color: var(--bg-color);
+      transform: translateY(-2px);
+    }
+
+    /* Main Section */
+    .main-content {
+      padding-top: 120px;
+      padding-bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-header {
+      text-align: center;
+      max-width: 700px;
+      margin-bottom: 20px;
+    }
+
+    .glow-text {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 40%, var(--color-accent-purple) 70%, var(--color-accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--color-text-sub);
+      line-height: 1.6;
+    }
+
+    /* 3D Scene Viewport */
+    .scene-viewport {
+      width: 100%;
+      height: 380px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      perspective: 1200px;
+      margin-bottom: 30px;
+    }
+
+    .scene-container {
+      width: 400px;
+      height: 340px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-style: preserve-3d;
+      transition: transform 0.25s ease-out;
+    }
+
+    .orbit-3d-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-style: preserve-3d;
+    }
+
+    /* 3D Rings */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      transform-style: preserve-3d;
+    }
+
+    .outer-ring {
+      width: 240px;
+      height: 240px;
+      border: 1.5px dashed rgba(255, 255, 255, 0.35);
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.05), 0 0 20px rgba(168, 85, 247, 0.05);
+      animation: outer-spin 14s linear infinite;
+    }
+
+    .middle-ring {
+      width: 190px;
+      height: 190px;
+      border: 1px dotted rgba(255, 255, 255, 0.2);
+      animation: inner-spin 18s linear infinite reverse;
+    }
+
+    .orbiting-orb {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 
+        0 0 10px #fff,
+        0 0 22px var(--color-accent-cyan),
+        0 0 35px var(--color-accent-purple);
+    }
+
+    .central-portfolio-card {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      transform: translateZ(25px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .fingerprint-icon {
+      font-size: 1.8rem;
+      color: var(--color-text-main);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .title-text {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-text-sub);
+    }
+
+    .card-glow {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-accent-purple), var(--color-accent-cyan));
+      z-index: -1;
+      opacity: 0.2;
+      filter: blur(8px);
+      transition: opacity 0.4s ease;
+    }
+
+    .central-portfolio-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateZ(35px) scale(1.08);
+    }
+
+    .central-portfolio-card:hover .fingerprint-icon {
+      color: var(--color-accent-cyan);
+      text-shadow: 0 0 15px var(--color-accent-cyan);
+    }
+
+    .central-portfolio-card:hover .title-text {
+      color: #fff;
+    }
+
+    .central-portfolio-card:hover .card-glow {
+      opacity: 0.6;
+    }
+
+    @keyframes outer-spin {
+      from { transform: rotateX(68deg) rotateY(14deg) rotateZ(0deg); }
+      to { transform: rotateX(68deg) rotateY(14deg) rotateZ(360deg); }
+    }
+
+    @keyframes inner-spin {
+      from { transform: rotateX(60deg) rotateY(-18deg) rotateZ(0deg); }
+      to { transform: rotateX(60deg) rotateY(-18deg) rotateZ(360deg); }
+    }
+
+    /* Glassmorphic Card Grid (10 columns/cards) */
+    .grid-section {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .grid-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .grid-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+    }
+
+    .grid-card {
+      height: 80px;
+      background: var(--panel-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-card::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%, 
-        rgba(0, 0, 0, 0.25) 50%
-      ), linear-gradient(
-        90deg,
-        rgba(255, 0, 0, 0.06),
-        rgba(0, 255, 0, 0.02),
-        rgba(0, 0, 255, 0.06)
-      );
-      background-size: 100% 4px, 6px 100%;
-      z-index: 10;
-      pointer-events: none;
-      opacity: 0.85;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(6, 182, 212, 0.05));
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    
-    .container {
-      max-width: 950px;
-      width: 100%;
-      position: relative;
-      z-index: 5;
-      text-align: center;
+
+    .grid-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 15px rgba(168, 85, 247, 0.1);
     }
-    
-    /* Header HUD Branding */
-    header {
-      margin-bottom: 50px;
-      position: relative;
-    }
-    
-    .hud-title-wrapper {
-      display: inline-block;
-      border-left: 3px solid var(--accent-neon);
-      border-right: 3px solid var(--accent-neon);
-      padding: 10px 40px;
-      background: rgba(0, 240, 255, 0.03);
-      box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
-      position: relative;
-    }
-    
-    .hud-title-wrapper::before {
-      content: 'SYS.STATUS: ONLINE';
-      position: absolute;
-      top: -18px;
-      left: 0;
-      font-size: 0.7rem;
-      color: var(--accent-neon);
-      letter-spacing: 2px;
-    }
-    
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.8rem;
-      font-weight: 900;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
-      position: relative;
-    }
-    
-    .subtitle {
-      color: var(--accent-neon);
-      font-size: 1rem;
-      letter-spacing: 3px;
-      margin-top: 15px;
-      text-transform: uppercase;
-      text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
-    }
-    
-    /* Grid layout */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      margin-bottom: 50px;
-    }
-    
-    /* Gaming Cyber Cards */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-neon);
-      border-radius: 4px;
-      padding: 30px;
-      text-align: left;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
-    }
-    
-    /* Corner HUD bracket lights */
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 10px;
-      height: 10px;
-      border-top: 2px solid var(--accent-neon);
-      border-left: 2px solid var(--accent-neon);
-      opacity: 0.5;
-      transition: all 0.3s;
-    }
-    
-    .card::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 10px;
-      height: 10px;
-      border-bottom: 2px solid var(--accent-neon);
-      border-right: 2px solid var(--accent-neon);
-      opacity: 0.5;
-      transition: all 0.3s;
-    }
-    
-    .card:hover {
-      border-color: var(--accent-neon);
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.15);
-      transform: translateY(-4px) scale(1.02);
-    }
-    
-    .card:hover::before {
-      width: 25px;
-      height: 25px;
+
+    .grid-card:hover::before {
       opacity: 1;
-      border-color: var(--accent-magenta);
     }
-    
-    .card:hover::after {
-      width: 25px;
-      height: 25px;
-      opacity: 1;
-      border-color: var(--accent-magenta);
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
     }
-    
-    /* Card Icon HUD */
-    .icon {
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--border-neon);
-      border-radius: 4px;
-      color: var(--accent-neon);
+
+    .icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 20px;
-      box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
-      background: rgba(0, 240, 255, 0.05);
+      font-size: 1.15rem;
       transition: all 0.3s;
     }
-    
-    .card:hover .icon {
-      background: var(--accent-neon);
-      color: #000;
-      box-shadow: 0 0 15px var(--accent-neon);
-      border-color: var(--accent-neon);
-      transform: rotate(45deg);
+
+    .grid-card:hover .icon-box {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
     }
-    
-    h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      color: #fff;
-      transition: color 0.3s;
-    }
-    
-    .card:hover h2 {
-      color: var(--accent-neon);
-      text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
-    }
-    
-    p {
-      color: var(--text-muted);
-      font-family: 'Inter', sans-serif;
+
+    .card-title {
+      font-family: var(--font-display);
       font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 20px;
-      transition: color 0.3s;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--color-text-main);
     }
-    
-    .card:hover p {
-      color: #d1dbe5;
-    }
-    
-    .hud-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      color: var(--accent-magenta);
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-    
-    .hud-btn i {
-      font-size: 0.75rem;
-      transition: transform 0.2s;
-    }
-    
-    .card:hover .hud-btn {
-      color: var(--accent-neon);
-      text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
-    }
-    
-    .card:hover .hud-btn i {
-      transform: translateX(6px);
-    }
-    
-    /* Footer HUD Grid */
-    footer {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      border-top: 1px solid rgba(0, 240, 255, 0.15);
-      padding-top: 20px;
+
+    /* Row 1 specific icon colors */
+    .github-icon { color: #f3f4f6; }
+    .hf-icon { color: #FFD21E; }
+    .portfolio-icon { color: #c084fc; }
+    .news-icon { color: #d32f2f; }
+    .guide-icon { color: #34d399; }
+
+    /* Row 2 specific icon colors */
+    .python-icon { color: #38bdf8; }
+    .c-icon { color: #60a5fa; }
+    .thm-icon { color: #f43f5e; }
+    .net-icon { color: #a78bfa; }
+    .reva-icon { color: #fbbf24; }
+
+    /* Detail Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
     }
-    
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: rgba(15, 15, 20, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 550px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--color-text-sub);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      margin-top: 10px;
+    }
+
+    .modal-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-body p {
+      color: var(--color-text-sub);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .modal-body code {
+      background: rgba(255,255,255,0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .modal-body pre {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 15px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      overflow-x: auto;
+      margin-bottom: 15px;
+      color: #38bdf8;
+    }
+
+    .modal-list-title {
+      font-weight: 700;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .modal-list {
+      list-style: none;
+    }
+
+    .modal-list li {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--color-text-sub);
+    }
+
+    .modal-list li i {
+      color: var(--color-accent-cyan);
+      margin-right: 8px;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      color: var(--color-text-sub);
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 20px;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .grid-row {
+        grid-template-columns: repeat(3, 1fr);
       }
-      h1 {
-        font-size: 1.8rem;
+    }
+
+    @media (max-width: 600px) {
+      .grid-row {
+        grid-template-columns: repeat(2, 1fr);
       }
-      footer {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+      .glow-text {
+        font-size: 2.1rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Game lobby interactive canvas -->
-  <canvas id="particle-canvas"></canvas>
-  <div class="scanlines"></div>
+  <!-- Background starry field and glow spots -->
+  <canvas id="starfield"></canvas>
+  <div class="glow-orb glow-cyan"></div>
+  <div class="glow-orb glow-purple"></div>
 
-  <div class="container">
-    <header>
-      <div class="hud-title-wrapper">
-        <h1 id="glitch-title">AFE PROJECTS HUB</h1>
-        <div class="subtitle">Select Simulation Link</div>
+  <!-- Navigation header -->
+  <header>
+    <div class="container navbar">
+      <a href="#" class="logo">
+        <span class="bracket">&lt;</span> Ankita.Dev <span class="bracket">/&gt;</span>
+      </a>
+      <div class="nav-actions">
+        <a href="https://github.com/ankitabaler/AFE_Ankita_R25EJ009" target="_blank" class="cta-btn-header">
+          <i class="fa-brands fa-github"></i> Repository
+        </a>
       </div>
-    </header>
-    
-    <div class="grid">
-      <!-- Portfolio Card -->
-      <a href="portfolio/index.html" class="card hud-card" data-sound="low">
-        <div class="icon"><i class="fa-solid fa-gamepad"></i></div>
-        <h2>E-Profile Portfolio</h2>
-        <p>Simulation of interactive credentials. Featuring neon theme modifications, responsive timelines, and an audio-tactile live PDF Resume Builder engine.</p>
-        <div class="hud-btn">[INITIALIZE_PORTFOLIO] <i class="fa-solid fa-angles-right"></i></div>
-      </a>
-      
-      <!-- News Card -->
-      <a href="news/index.html" class="card hud-card" data-sound="high">
-        <div class="icon"><i class="fa-solid fa-satellite"></i></div>
-        <h2>Chronicle News Portal</h2>
-        <p>A real-time telemetry portal logging science and tech alerts. Supported by category sorting feeds, search parameters, and saved file database logs.</p>
-        <div class="hud-btn">[LAUNCH_NEWS_PORTAL] <i class="fa-solid fa-angles-right"></i></div>
-      </a>
-      
-      <!-- HF Report Card -->
-      <a href="huggingface_model_report.md" class="card hud-card" data-sound="low">
-        <div class="icon"><i class="fa-solid fa-brain"></i></div>
-        <h2>Hugging Face Report</h2>
-        <p>Deep analysis of DeepSeek-R1 logic parameters. Reviewing reinforcement GRPO policies, MLA attention matrices, and distilled deep networks.</p>
-        <div class="hud-btn">[LOAD_HF_REPORT] <i class="fa-solid fa-angles-right"></i></div>
-      </a>
-      
-      <!-- Git Guide Card -->
-      <a href="github_guide.md" class="card hud-card" data-sound="high">
-        <div class="icon"><i class="fa-brands fa-git-alt"></i></div>
-        <h2>GitHub & Git Guide</h2>
-        <p>Operational tutorial detailing workspace Git commands, personal access keys setup, secure push credentials, and public server hosting.</p>
-        <div class="hud-btn">[READ_GIT_GUIDE] <i class="fa-solid fa-angles-right"></i></div>
-      </a>
-      
-      <!-- 3D Spline Hub Card -->
-      <a href="3d_portfolio/index.html" class="card hud-card" data-sound="high" style="grid-column: span 2;">
-        <div class="icon"><i class="fa-solid fa-cube"></i></div>
-        <h2>3D Interactive Hub</h2>
-        <p>A high-performance 3D perspective dashboard modeled after Spline animations. Features animated orbiting stars, a mouse-controlled parallax coordinate matrix, and interactive details for Python, C, and cybersecurity labs.</p>
-        <div class="hud-btn">[INITIALIZE_3D_SIMULATION] <i class="fa-solid fa-angles-right"></i></div>
-      </a>
     </div>
+  </header>
+
+  <!-- Main viewport -->
+  <main class="container main-content">
     
+    <div class="hero-header">
+      <h1 class="glow-text">TO BOOST AFE PROJECTS</h1>
+      <p class="subtitle">An interactive 3D gateway linking to course work documents, live telemetry news aggregation, and developer credentials.</p>
+    </div>
+
+    <!-- Central 3D orbital rings structure -->
+    <section class="scene-viewport">
+      <div class="scene-container" id="interactive-scene">
+        <div class="orbit-3d-wrapper">
+          <div class="ring outer-ring">
+            <div class="orbiting-orb"></div>
+          </div>
+          <div class="ring middle-ring"></div>
+          <div class="central-portfolio-card">
+            <div class="card-inner">
+              <i class="fa-solid fa-fingerprint fingerprint-icon"></i>
+              <span class="title-text">Hub</span>
+            </div>
+            <div class="card-glow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glassmorphic Grid Menu -->
+    <section class="grid-section">
+      <div class="grid-container">
+        
+        <!-- Row 1: Coursework Projects & Guides -->
+        <div class="grid-row">
+          
+          <!-- GitHub Repo Link -->
+          <a href="https://github.com/ankitabaler/AFE_Ankita_R25EJ009" target="_blank" class="grid-card" data-sound="low">
+            <div class="card-content">
+              <div class="icon-box github-icon"><i class="fa-brands fa-github"></i></div>
+              <span class="card-title">GitHub Repo</span>
+            </div>
+          </a>
+
+          <!-- Hugging Face Card -->
+          <a href="huggingface.html" class="grid-card" data-sound="high">
+            <div class="card-content">
+              <div class="icon-box hf-icon"><i class="fa-solid fa-face-smiling-hands"></i></div>
+              <span class="card-title">Hugging Face</span>
+            </div>
+          </a>
+
+          <!-- Portfolio E-Profile -->
+          <a href="portfolio.html" class="grid-card" data-sound="low">
+            <div class="card-content">
+              <div class="icon-box portfolio-icon"><i class="fa-solid fa-user-tie"></i></div>
+              <span class="card-title">Portfolio</span>
+            </div>
+          </a>
+
+          <!-- Live News Portal -->
+          <a href="news.html" class="grid-card" data-sound="high">
+            <div class="card-content">
+              <div class="icon-box news-icon"><i class="fa-solid fa-newspaper"></i></div>
+              <span class="card-title">News Site</span>
+            </div>
+          </a>
+
+          <!-- Git Setup Guide (Opens Modal) -->
+          <div class="grid-card" onclick="openDetails('git-guide')" data-sound="low">
+            <div class="card-content">
+              <div class="icon-box guide-icon"><i class="fa-brands fa-git-alt"></i></div>
+              <span class="card-title">Git Guide</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Row 2: Skills & Backgrounds -->
+        <div class="grid-row">
+          
+          <!-- Python Coding -->
+          <div class="grid-card" onclick="openDetails('python')" data-sound="high">
+            <div class="card-content">
+              <div class="icon-box python-icon"><i class="fa-brands fa-python"></i></div>
+              <span class="card-title">Python Coding</span>
+            </div>
+          </div>
+
+          <!-- C Lang -->
+          <div class="grid-card" onclick="openDetails('c-lang')" data-sound="low">
+            <div class="card-content">
+              <div class="icon-box c-icon"><i class="fa-solid fa-code"></i></div>
+              <span class="card-title">C Programming</span>
+            </div>
+          </div>
+
+          <!-- THM Defenses -->
+          <div class="grid-card" onclick="openDetails('thm')" data-sound="high">
+            <div class="card-content">
+              <div class="icon-box thm-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <span class="card-title">TryHackMe</span>
+            </div>
+          </div>
+
+          <!-- Networking -->
+          <div class="grid-card" onclick="openDetails('networking')" data-sound="low">
+            <div class="card-content">
+              <div class="icon-box net-icon"><i class="fa-solid fa-network-wired"></i></div>
+              <span class="card-title">Networking</span>
+            </div>
+          </div>
+
+          <!-- Reva Uni -->
+          <div class="grid-card" onclick="openDetails('reva')" data-sound="high">
+            <div class="card-content">
+              <div class="icon-box reva-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <span class="card-title">Reva University</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-      <span>LOC.COORDINATES: C:\USERS\APEXM\SCRATCH</span>
-      <span>&copy; 2026 APEX DEVELOPER. ALL RIGHTS RESERVED.</span>
-      <span>BUILD.V: 1.0.4-HOT</span>
+      <p>&copy; 2026 Coursework Portfolio Portal. Designed & Built by Ankita Baler.</p>
     </footer>
+
+  </main>
+
+  <!-- Interactive Detail Modal -->
+  <div id="details-modal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeDetails()"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modal-content-placeholder">
+        <!-- Content injected dynamically -->
+      </div>
+    </div>
   </div>
 
-  <!-- Audio and Interactive Canvas script -->
+  <!-- Starry Canvas, 3D Parallax and Audio Feedback scripts -->
   <script>
-    // ==========================================================================
-    // 1. DYNAMIC RETRO SYNTH AUDIO EFFECT ON HOVER (WEB AUDIO API)
-    // ==========================================================================
-    let audioCtx = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Starfield Background with Mouse Parallax
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      
+      let stars = [];
+      const starCount = 100;
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+      
+      let mouseX = 0, mouseY = 0;
+      let targetMouseX = 0, targetMouseY = 0;
 
-    function playHoverSound(type) {
-      try {
-        // Initialize Context on user interaction if blocked
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      class Star {
+        constructor() {
+          this.reset();
         }
-        
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = Math.random() * 1.5 + 0.3;
+          this.speed = Math.random() * 0.1 + 0.03;
+          this.color = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`;
         }
-
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        // Synth frequencies
-        const baseFreq = type === 'high' ? 880 : 440;
-        
-        // Cyber retro synth setup
-        osc.type = 'sine'; 
-        osc.frequency.setValueAtTime(baseFreq, audioCtx.currentTime);
-        
-        // Fast pitch slide (gaming click effect)
-        osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, audioCtx.currentTime + 0.05);
-
-        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.08);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.08);
-      } catch (e) {
-        console.log('AudioContext error:', e);
+        update() {
+          this.y += this.speed;
+          if (this.y > height) {
+            this.reset();
+            this.y = 0;
+          }
+        }
+        draw() {
+          const px = this.x - mouseX * this.size * 4;
+          const py = this.y - mouseY * this.size * 4;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(px, py, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
-    }
 
-    // Attach listeners to cards
-    const cards = document.querySelectorAll('.hud-card');
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        const soundType = card.getAttribute('data-sound');
-        playHoverSound(soundType);
+      function initStars() {
+        stars = [];
+        for (let i = 0; i < starCount; i++) {
+          stars.push(new Star());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+        stars.forEach(star => {
+          star.update();
+          star.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initStars();
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        targetMouseX = (e.clientX / window.innerWidth) - 0.5;
+        targetMouseY = (e.clientY / window.innerHeight) - 0.5;
+      });
+
+      initStars();
+      animate();
+
+      // 2. 3D Parallax Tilt Effect (Spline Dynamics)
+      const sceneContainer = document.getElementById('interactive-scene');
+      
+      window.addEventListener('mousemove', (e) => {
+        const xRatio = (e.clientX / window.innerWidth) - 0.5;
+        const yRatio = (e.clientY / window.innerHeight) - 0.5;
+        
+        const rotateY = xRatio * 20;
+        const rotateX = -yRatio * 20;
+        
+        sceneContainer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      window.addEventListener('mouseleave', () => {
+        sceneContainer.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+
+      // 3. Web Audio Synth Hover Feedback
+      let audioCtx = null;
+      function playHoverSound(type) {
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          const baseFreq = type === 'high' ? 800 : 400;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(baseFreq, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.4, audioCtx.currentTime + 0.04);
+          
+          gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.06);
+          
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.06);
+        } catch (e) {
+          console.log('Audio init blocked:', e);
+        }
+      }
+
+      document.querySelectorAll('.grid-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          const soundType = card.getAttribute('data-sound');
+          if (soundType) playHoverSound(soundType);
+        });
       });
     });
 
-    // ==========================================================================
-    // 2. INTERACTIVE GAME-MENU CANVAS PARTICLES
-    // ==========================================================================
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
+    // 4. Detailed Modal Database & Logic
+    const detailsData = {
+      'git-guide': {
+        icon: 'fa-brands fa-git-alt guide-icon',
+        title: 'Git & GitHub Setup Commands',
+        body: `
+          <p>Here are the exact terminal commands to configure Git, initialize your repository, and commit your coursework projects:</p>
+          <div class="modal-list-title">1. Config user parameters:</div>
+          <pre>git config --global user.name "Ankita Baler"
+git config --global user.email "ankitabaler20@gmail.com"</pre>
+          <div class="modal-list-title">2. Initialize & Track Repository:</div>
+          <pre>git init
+git add .
+git commit -m "Initial commit - AFE Project"</pre>
+          <div class="modal-list-title">3. Link to remote & Push:</div>
+          <pre>git branch -M main
+git remote add origin https://github.com/ankitabaler/AFE_Ankita_R25EJ009.git
+git push -u origin main</pre>
+          <p>Verify that your files are live on GitHub Pages under the settings pages deployment menu!</p>
+        `
+      },
+      python: {
+        icon: 'fa-brands fa-python python-icon',
+        title: 'Python Scripting',
+        body: `
+          <p>Python is utilized across academic labs for core algorithm designs, network scripts, and data evaluations.</p>
+          <div class="modal-list-title">Key Elements:</div>
+          <ul class="modal-list">
+            <li><i class="fa-solid fa-check"></i> Clean object-oriented coding structures</li>
+            <li><i class="fa-solid fa-check"></i> Standard CLI automation tools</li>
+            <li><i class="fa-solid fa-check"></i> Telemetry data parsers</li>
+          </ul>
+        `
+      },
+      'c-lang': {
+        icon: 'fa-solid fa-code c-icon',
+        title: 'C Programming',
+        body: `
+          <p>C Lang provides a baseline understanding of CPU execution cycles, memory address registers, and pointer allocations.</p>
+          <div class="modal-list-title">Covered Labs:</div>
+          <ul class="modal-list">
+            <li><i class="fa-solid fa-check"></i> Direct pointer arithmetic</li>
+            <li><i class="fa-solid fa-check"></i> Dynamic array sizing (malloc/free)</li>
+            <li><i class="fa-solid fa-check"></i> Struct structures</li>
+          </ul>
+        `
+      },
+      thm: {
+        icon: 'fa-solid fa-shield-halved thm-icon',
+        title: 'TryHackMe Practice',
+        body: `
+          <p>Hands-on cyber security exercises completing rooms focused on networking infrastructure analysis and web application testing protocols.</p>
+          <div class="modal-list-title">Achievements:</div>
+          <ul class="modal-list">
+            <li><i class="fa-solid fa-check"></i> Clean configurations of Linux CLI targets</li>
+            <li><i class="fa-solid fa-check"></i> Log scanning and diagnostic captures</li>
+          </ul>
+        `
+      },
+      networking: {
+        icon: 'fa-solid fa-network-wired net-icon',
+        title: 'Computer Networks',
+        body: `
+          <p>Comprehensive reviews of data structures in transit, covering routing hops, subnetting layouts, and transport layers protocols.</p>
+          <div class="modal-list-title">Key concepts:</div>
+          <ul class="modal-list">
+            <li><i class="fa-solid fa-check"></i> TCP handshake telemetry</li>
+            <li><i class="fa-solid fa-check"></i> DNS queries and HTTP request processes</li>
+          </ul>
+        `
+      },
+      reva: {
+        icon: 'fa-solid fa-graduation-cap reva-icon',
+        title: 'Reva University CSIT Department',
+        body: `
+          <p>My academic foundation, pursuing B.Tech engineering studies in CSIT, participating in hands-on developer hackathons and algorithmic programming forums.</p>
+          <div class="modal-list-title">Core Studies:</div>
+          <ul class="modal-list">
+            <li><i class="fa-solid fa-check"></i> Object Oriented Design</li>
+            <li><i class="fa-solid fa-check"></i> Database systems management</li>
+          </ul>
+        `
+      }
+    };
 
-    let particles = [];
-    const maxParticles = 65;
-    let mouse = { x: null, y: null, radius: 140 };
+    const detailsModal = document.getElementById('details-modal');
+    const modalPlaceholder = document.getElementById('modal-content-placeholder');
 
-    // Setup viewport bounds
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    window.openDetails = (key) => {
+      const data = detailsData[key];
+      if (data) {
+        modalPlaceholder.innerHTML = `
+          <div class="modal-body">
+            <h3><i class="${data.icon}"></i> ${data.title}</h3>
+            ${data.body}
+          </div>
+        `;
+        detailsModal.classList.add('open');
+      }
+    };
 
-    // Mouse movement listeners
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+    window.closeDetails = () => {
+      detailsModal.classList.remove('open');
+    };
+
+    // Close on click outside modal content box
+    detailsModal.addEventListener('click', (e) => {
+      if (e.target === detailsModal) {
+        closeDetails();
+      }
     });
-
-    window.addEventListener('mouseout', () => {
-      mouse.x = null;
-      mouse.y = null;
-    });
-
-    // Particle Object
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.7;
-        this.speedY = (Math.random() - 0.5) * 0.7;
-        this.baseColor = Math.random() > 0.5 ? 'rgba(0, 240, 255, 0.4)' : 'rgba(255, 0, 127, 0.4)';
-      }
-
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // Bounce on boundaries
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-
-        // Mouse interaction push
-        if (mouse.x != null && mouse.y != null) {
-          let dx = this.x - mouse.x;
-          let dy = this.y - mouse.y;
-          let distance = Math.sqrt(dx*dx + dy*dy);
-          if (distance < mouse.radius) {
-            let force = (mouse.radius - distance) / mouse.radius;
-            let directionX = dx / distance;
-            let directionY = dy / distance;
-            this.x += directionX * force * 2;
-            this.y += directionY * force * 2;
-          }
-        }
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.baseColor;
-        ctx.fill();
-      }
-    }
-
-    // Init Particle array
-    function init() {
-      particles = [];
-      for (let i = 0; i < maxParticles; i++) {
-        particles.push(new Particle());
-      }
-    }
-    init();
-
-    // Line drawing and animation loop
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Background dark depth
-      ctx.fillStyle = 'rgba(3, 2, 6, 1)';
-      ctx.fillRect(0,0, canvas.width, canvas.height);
-      
-      // Update & Draw particles
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-
-      // Connect lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          let dx = particles[i].x - particles[j].x;
-          let dy = particles[i].y - particles[j].y;
-          let dist = Math.sqrt(dx*dx + dy*dy);
-
-          if (dist < 110) {
-            // Draw connecting lines with dynamic opacity based on distance
-            let alpha = (110 - dist) / 110 * 0.12;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
-      }
-      
-      requestAnimationFrame(animate);
-    }
-    animate();
   </script>
 </body>
 </html>

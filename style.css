@@ -1,0 +1,484 @@
+/* ==========================================================================
+   1. VARIABLES & COLOR PALETTE (NEON SPACECRAFT GLOW)
+   ========================================================================== */
+:root {
+  --bg-color: #030206;
+  --panel-bg: rgba(9, 6, 18, 0.55);
+  --border-neon: rgba(0, 240, 255, 0.2);
+  --accent-neon: #00f0ff; /* Cyber Cyan */
+  --accent-magenta: #ff007f; /* Cyber Pink */
+  --accent-purple: #8b5cf6;
+  --text-main: #ffffff;
+  --text-muted: #808d9a;
+
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+/* ==========================================================================
+   2. BASE RESET & OVERALL LAYOUT
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+/* Background Canvas */
+#comet-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Ambient glow orbs */
+.glow-orb {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(150px);
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+  animation: float-glow 25s ease-in-out infinite alternate;
+}
+.glow-cyan {
+  background: var(--accent-neon);
+  top: -10%;
+  left: -5%;
+}
+.glow-magenta {
+  background: var(--accent-magenta);
+  bottom: -10%;
+  right: -5%;
+  animation-delay: -6s;
+}
+
+@keyframes float-glow {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, 40px) scale(1.1); }
+}
+
+.container {
+  max-width: 950px;
+  width: 100%;
+  position: relative;
+  z-index: 5;
+  text-align: center;
+}
+
+/* ==========================================================================
+   3. HEADER HUD BRANDING
+   ========================================================================== */
+header {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.hud-title-wrapper {
+  display: inline-block;
+  border-left: 3px solid var(--accent-neon);
+  border-right: 3px solid var(--accent-neon);
+  padding: 12px 40px;
+  background: rgba(0, 240, 255, 0.03);
+  box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
+  position: relative;
+}
+
+.hud-title-wrapper::before {
+  content: 'SYS.STATUS: ACTIVE';
+  position: absolute;
+  top: -18px;
+  left: 0;
+  font-size: 0.7rem;
+  color: var(--accent-neon);
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(255, 0, 127, 0.3);
+}
+
+.subtitle {
+  color: var(--accent-neon);
+  font-size: 0.95rem;
+  letter-spacing: 3px;
+  margin-top: 15px;
+  text-transform: uppercase;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+}
+
+/* ==========================================================================
+   4. 3D SCENE VIEWPORT
+   ========================================================================== */
+.scene-viewport {
+  width: 100%;
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  perspective: 1200px;
+  margin-bottom: 20px;
+}
+
+.scene-container {
+  width: 400px;
+  height: 340px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out;
+}
+
+.orbit-3d-wrapper {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+/* 3D Rings */
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+}
+
+.outer-ring {
+  width: 250px;
+  height: 250px;
+  border: 1.5px dashed rgba(0, 240, 255, 0.4);
+  box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.05), 0 0 20px rgba(0, 240, 255, 0.05);
+  animation: outer-spin 12s linear infinite;
+}
+
+.middle-ring {
+  width: 190px;
+  height: 190px;
+  border: 1px dotted rgba(255, 0, 127, 0.3);
+  animation: inner-spin 16s linear infinite reverse;
+}
+
+/* Orbiting comet particle */
+.orbiting-orb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    0 0 10px #fff,
+    0 0 20px var(--accent-neon),
+    0 0 35px var(--accent-magenta);
+}
+
+/* Central Hub Logo Button */
+.central-portfolio-card {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(9, 6, 18, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid rgba(0, 240, 255, 0.25);
+  transform: translateZ(25px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.central-icon {
+  font-size: 2.2rem;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.title-text {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-neon);
+}
+
+.card-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-magenta), var(--accent-neon));
+  z-index: -1;
+  opacity: 0.2;
+  filter: blur(8px);
+  transition: opacity 0.4s ease;
+}
+
+.central-portfolio-card:hover {
+  border-color: var(--accent-magenta);
+  transform: translateZ(35px) scale(1.08);
+}
+
+.central-portfolio-card:hover .central-icon {
+  color: var(--accent-magenta);
+  text-shadow: 0 0 15px var(--accent-magenta);
+}
+
+.central-portfolio-card:hover .card-glow {
+  opacity: 0.6;
+}
+
+/* Animations */
+@keyframes outer-spin {
+  from { transform: rotateX(68deg) rotateY(12deg) rotateZ(0deg); }
+  to { transform: rotateX(68deg) rotateY(12deg) rotateZ(360deg); }
+}
+
+@keyframes inner-spin {
+  from { transform: rotateX(60deg) rotateY(-18deg) rotateZ(0deg); }
+  to { transform: rotateX(60deg) rotateY(-18deg) rotateZ(360deg); }
+}
+
+/* ==========================================================================
+   5. GLASSMORPHIC CARD GRID LINKS
+   ========================================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.card {
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-neon);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* HUD lights on corners */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--accent-neon);
+  border-left: 2px solid var(--accent-neon);
+  opacity: 0.4;
+  transition: all 0.3s;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid var(--accent-neon);
+  border-right: 2px solid var(--accent-neon);
+  opacity: 0.4;
+  transition: all 0.3s;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border-neon);
+  border-radius: 8px;
+  color: var(--accent-neon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  margin-bottom: 20px;
+  background: rgba(0, 240, 255, 0.05);
+  transition: all 0.3s;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+p {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+}
+
+.hud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--accent-magenta);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.hud-btn i {
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+/* Hover effects */
+.card:hover {
+  border-color: var(--accent-neon);
+  box-shadow: 
+    0 15px 35px rgba(0, 240, 255, 0.15),
+    inset 0 0 15px rgba(0, 240, 255, 0.1);
+  transform: translateY(-5px) scale(1.02);
+}
+
+.card:hover::before {
+  width: 25px;
+  height: 25px;
+  opacity: 1;
+  border-color: var(--accent-magenta);
+}
+
+.card:hover::after {
+  width: 25px;
+  height: 25px;
+  opacity: 1;
+  border-color: var(--accent-magenta);
+}
+
+.card:hover .icon {
+  background: var(--accent-neon);
+  color: #000;
+  box-shadow: 0 0 15px var(--accent-neon);
+  border-color: var(--accent-neon);
+  transform: rotate(45deg);
+}
+
+.card:hover h2 {
+  color: var(--accent-neon);
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+}
+
+.card:hover p {
+  color: #d1dbe5;
+}
+
+.card:hover .hud-btn {
+  color: var(--accent-neon);
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+}
+
+.card:hover .hud-btn i {
+  transform: translateX(6px);
+}
+
+/* Spanned bottom card styling */
+.span-2 {
+  grid-column: span 2;
+}
+
+/* ==========================================================================
+   6. FOOTER
+   ========================================================================== */
+footer {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(0, 240, 255, 0.15);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .span-2 {
+    grid-column: span 1;
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  .scene-viewport {
+    height: 300px;
+  }
+  .scene-container {
+    width: 320px;
+    height: 280px;
+  }
+  footer {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
