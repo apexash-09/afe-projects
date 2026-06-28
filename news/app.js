@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalBody = document.getElementById('modal-body');
 
   // Load Saved Theme
-  const savedTheme = localStorage.getItem('chronicle-theme') || 'light';
+  const savedTheme = localStorage.getItem('chronicle-theme') || 'dark';
   document.body.className = '';
   document.body.classList.add(`theme-${savedTheme}`);
   updateThemeIcon(savedTheme);
@@ -599,4 +599,156 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch updated news in background
   fetchLiveNews();
+
+  // ==========================================================================
+  // 8. INTERACTIVE STARFIELD & COMETS BACKGROUND
+  // ==========================================================================
+  const canvas = document.createElement('canvas');
+  canvas.id = 'comet-canvas';
+  document.body.prepend(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  let stars = [];
+  let comets = [];
+  const starCount = 100;
+  
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetMouseX = 0;
+  let targetMouseY = 0;
+
+  class Star {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * height;
+    }
+    reset() {
+      this.x = Math.random() * width;
+      this.y = 0;
+      this.size = Math.random() * 1.5 + 0.5;
+      this.speed = Math.random() * 0.15 + 0.05;
+      this.alpha = Math.random() * 0.6 + 0.3;
+      this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+      this.twinkleDirection = Math.random() > 0.5 ? 1 : -1;
+    }
+    update() {
+      this.y += this.speed;
+      if (this.y > height) this.reset();
+      this.alpha += this.twinkleSpeed * this.twinkleDirection;
+      if (this.alpha > 0.9) {
+        this.alpha = 0.9;
+        this.twinkleDirection = -1;
+      } else if (this.alpha < 0.2) {
+        this.alpha = 0.2;
+        this.twinkleDirection = 1;
+      }
+    }
+    draw() {
+      const px = this.x - mouseX * this.size * 6;
+      const py = this.y - mouseY * this.size * 6;
+      ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+      ctx.beginPath();
+      ctx.arc(px, py, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  class Comet {
+    constructor() {
+      this.reset();
+      this.active = Math.random() > 0.7;
+    }
+    reset() {
+      this.active = false;
+      this.x = Math.random() * width;
+      this.y = -50;
+      this.length = Math.random() * 80 + 40;
+      this.speedX = Math.random() * 4 + 3;
+      this.speedY = Math.random() * 3 + 2.5;
+      if (Math.random() > 0.5) {
+        this.speedX = -this.speedX;
+        this.x = Math.random() * (width * 0.5) + (width * 0.5);
+      } else {
+        this.x = Math.random() * (width * 0.5);
+      }
+      this.width = Math.random() * 1.5 + 1;
+      this.alpha = 1;
+      this.fadeSpeed = Math.random() * 0.005 + 0.005;
+    }
+    update() {
+      if (!this.active) {
+        if (Math.random() < 0.002) {
+          this.reset();
+          this.active = true;
+        }
+        return;
+      }
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.alpha -= this.fadeSpeed;
+      if (this.alpha <= 0 || this.y > height || this.x < -100 || this.x > width + 100) {
+        this.active = false;
+      }
+    }
+    draw() {
+      if (!this.active) return;
+      ctx.save();
+      ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha})`;
+      ctx.lineWidth = this.width;
+      ctx.lineCap = 'round';
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(this.x - this.speedX * 4, this.y - this.speedY * 4);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  function init() {
+    stars = [];
+    comets = [];
+    for (let i = 0; i < starCount; i++) stars.push(new Star());
+    for (let i = 0; i < 2; i++) comets.push(new Comet());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Only draw space graphics when in dark theme mode!
+    if (document.body.classList.contains('theme-dark')) {
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+
+      comets.forEach(comet => {
+        comet.update();
+        comet.draw();
+      });
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    init();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    targetMouseX = (e.clientX / window.innerWidth) - 0.5;
+    targetMouseY = (e.clientY / window.innerHeight) - 0.5;
+  });
+
+  init();
+  animate();
 });

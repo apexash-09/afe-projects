@@ -61,7 +61,7 @@ body.theme-amber {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--body-bg);
+  background-color: transparent;
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
@@ -1417,4 +1417,17 @@ footer {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
+
+/* Comet Canvas Background */
+#comet-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  background-color: var(--body-bg);
+  transition: background-color var(--transition-normal);
 }

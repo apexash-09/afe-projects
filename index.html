@@ -4,540 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ankita Baler | AFE Projects Gateway</title>
-  <meta name="description" content="A glassmorphism Web3 space-themed portal and gateway for Ankita Baler's coursework projects.">
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="A premium glassmorphism Web3 space-themed gateway for Ankita Baler's coursework projects.">
+  
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    :root {
-      --bg-color: #050508;
-      --glass-bg: rgba(255, 255, 255, 0.06);
-      --glass-bg-hover: rgba(255, 255, 255, 0.1);
-      --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-      --glass-border-hover: 1px solid rgba(255, 255, 255, 0.22);
-      --text-primary: #FFFFFF;
-      --text-muted: rgba(255, 255, 255, 0.5);
-      --glow-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-      --font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-primary);
-      font-family: var(--font-family);
-      overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* Ambient Space Particles Background */
-    .space-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .star {
-      position: absolute;
-      background-color: #ffffff;
-      border-radius: 50%;
-      opacity: 0.25;
-      pointer-events: none;
-      animation: drift linear infinite;
-    }
-
-    /* Glow overlays for depth */
-    .ambient-glow {
-      position: fixed;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 70%);
-      filter: blur(80px);
-      z-index: -1;
-      pointer-events: none;
-    }
-    .glow-1 { top: -10%; left: -10%; }
-    .glow-2 { bottom: -10%; right: -10%; }
-
-    @keyframes drift {
-      0% {
-        transform: translateY(0) translateX(0);
-      }
-      50% {
-        transform: translateY(-40px) translateX(20px);
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-80px) translateX(0px);
-        opacity: 0.2;
-      }
-    }
-
-    /* Header Nav Bar */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-      background: rgba(5, 5, 8, 0.4);
-    }
-
-    .logo {
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo i {
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-
-    .nav-pill {
-      display: flex;
-      gap: 4px;
-      background: rgba(255, 255, 255, 0.04);
-      border: var(--glass-border);
-      border-radius: 999px;
-      padding: 4px;
-      backdrop-filter: blur(14px) saturate(120%);
-    }
-
-    .nav-pill a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 8px 18px;
-      border-radius: 999px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-pill a:hover, .nav-pill a.active {
-      color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      padding: 120px 24px 60px;
-      z-index: 10;
-    }
-
-    /* 3D Planet and Orbital Ring Element */
-    .planet-container {
-      position: relative;
-      width: 320px;
-      height: 320px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      margin-bottom: 24px;
-    }
-
-    .planet-orb {
-      position: absolute;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #202028 50%, #020204 100%);
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.07), inset -10px -10px 30px rgba(0, 0, 0, 0.95);
-      transform: translateZ(10px);
-      z-index: 2;
-    }
-
-    .orbital-ring {
-      position: absolute;
-      width: 290px;
-      height: 290px;
-      border: 1px solid rgba(255, 255, 255, 0.85);
-      border-radius: 50%;
-      transform-style: preserve-3d;
-      transform: rotateX(70deg) rotateY(30deg) rotateZ(0deg);
-      animation: rotate-ring 20s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Outer orbit indicator */
-    .orbital-ring::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 8px;
-      height: 8px;
-      background-color: #ffffff;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 1);
-    }
-
-    @keyframes rotate-ring {
-      0% {
-        transform: rotateX(70deg) rotateY(30deg) rotateZ(0deg);
-      }
-      100% {
-        transform: rotateX(70deg) rotateY(30deg) rotateZ(360deg);
-      }
-    }
-
-    .hero-content {
-      max-width: 800px;
-      margin-top: 10px;
-    }
-
-    .headline {
-      font-size: 3.5rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
-
-    .subheadline {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 32px;
-      line-height: 1.6;
-    }
-
-    /* CTA Button - Pill Glassmorphism */
-    .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-primary);
-      background: var(--glass-bg);
-      border: var(--glass-border);
-      border-radius: 999px;
-      padding: 14px 32px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      backdrop-filter: blur(14px) saturate(120%);
-      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-      box-shadow: var(--glow-shadow), 0 0 10px rgba(255, 255, 255, 0.02);
-    }
-
-    .cta-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Portfolio Section */
-    .portfolio-section {
-      padding: 80px 24px 120px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-variant: all-small-caps;
-      letter-spacing: 4px;
-      color: var(--text-primary);
-      margin-bottom: 40px;
-      display: inline-block;
-      position: relative;
-    }
-
-    .section-label::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 1px;
-      background-color: var(--text-primary);
-    }
-
-    /* Logo/Tile Grid */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .grid-card {
-      background: var(--glass-bg);
-      border: var(--glass-border);
-      border-radius: 12px;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      backdrop-filter: blur(14px) saturate(120%);
-      transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-      box-shadow: var(--glow-shadow);
-      min-height: 140px;
-    }
-
-    .grid-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.22);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.06);
-    }
-
-    .card-icon {
-      font-size: 1.8rem;
-      color: var(--text-primary);
-      opacity: 0.85;
-      transition: all 0.3s;
-    }
-
-    .grid-card:hover .card-icon {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-
-    .card-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      transition: all 0.3s;
-    }
-
-    .grid-card:hover .card-title {
-      color: var(--text-primary);
-    }
-
-    /* Modal Styling */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(5, 5, 8, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal-box {
-      background: rgba(255, 255, 255, 0.06);
-      border: var(--glass-border);
-      border-radius: 16px;
-      width: 90%;
-      max-width: 550px;
-      padding: 35px;
-      position: relative;
-      backdrop-filter: blur(20px) saturate(120%);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.open .modal-box {
-      transform: translateY(0);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .modal-close:hover {
-      color: var(--text-primary);
-    }
-
-    .modal-body h3 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .modal-body p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .modal-body pre {
-      background: rgba(255, 255, 255, 0.04);
-      border: var(--glass-border);
-      padding: 15px;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      overflow-x: auto;
-      margin-bottom: 20px;
-      color: #7dd3fc;
-    }
-
-    .modal-list-title {
-      font-weight: 700;
-      margin-top: 15px;
-      margin-bottom: 8px;
-      font-size: 0.95rem;
-    }
-
-    .modal-list {
-      list-style: none;
-    }
-
-    .modal-list li {
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .modal-list li i {
-      color: #34d399;
-      font-size: 0.85rem;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 40px 24px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      z-index: 10;
-      position: relative;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-      .portfolio-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 15px 20px;
-      }
-      .nav-pill {
-        display: none; /* Mobile simplicity */
-      }
-      .headline {
-        font-size: 2.5rem;
-      }
-      .portfolio-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .planet-container {
-        width: 260px;
-        height: 260px;
-      }
-      .planet-orb {
-        width: 110px;
-        height: 110px;
-      }
-      .orbital-ring {
-        width: 230px;
-        height: 230px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-      .headline {
-        font-size: 2rem;
-      }
-    }
-  </style>
+  
+  <!-- Link to External Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Ambient Space Particles Background -->
-  <div class="space-bg" id="space-bg">
-    <!-- Star elements generated dynamically by JS for responsiveness -->
-  </div>
+  <!-- Starry Background Canvas with Comets -->
+  <canvas id="comet-canvas"></canvas>
+  
+  <!-- Ambient Space Depth Glows -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
 
@@ -572,7 +52,7 @@
 
   <!-- Portfolio Grid Section -->
   <section class="portfolio-section" id="portfolio">
-    <div class="section-label">PORTFOLIO</div>
+    <div class="section-label">Portfolio</div>
     <div class="portfolio-grid">
       
       <!-- Card 1: GitHub Repo -->
@@ -640,7 +120,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 course portfolio portal. designed & developed by ankita baler.</p>
+    <p>&copy; 2026 Course Portfolio Portal. Designed & Developed by Ankita Baler.</p>
   </footer>
 
   <!-- Modal Overlay -->
@@ -653,50 +133,12 @@
     </div>
   </div>
 
+  <!-- Link to External App logic -->
+  <script src="app.js"></script>
+
+  <!-- Interactive Modal Scripting -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Dynamic Particle Generation & Subtle Drifting Animation
-      const spaceBg = document.getElementById('space-bg');
-      const starCount = 35;
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        
-        // Random dimensions, position, and drifting animations
-        const size = Math.random() * 2 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        
-        const duration = Math.random() * 15 + 10;
-        star.style.animationDuration = `${duration}s`;
-        star.style.animationDelay = `${Math.random() * 5}s`;
-        
-        spaceBg.appendChild(star);
-      }
-
-      // 2. Parallax Tilt for Planet
-      const planetScene = document.getElementById('planet-scene');
-      window.addEventListener('mousemove', (e) => {
-        const xRatio = (e.clientX / window.innerWidth) - 0.5;
-        const yRatio = (e.clientY / window.innerHeight) - 0.5;
-        
-        const rotateY = xRatio * 22;
-        const rotateX = -yRatio * 22;
-        
-        planetScene.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      });
-
-      window.addEventListener('mouseleave', () => {
-        planetScene.style.transform = 'rotateX(0deg) rotateY(0deg)';
-      });
-    });
-
-    // 3. Modal Database
+    // Modal Database
     const detailsData = {
       'git-guide': {
         icon: 'fa-brands fa-git-alt',
@@ -801,11 +243,13 @@ git push -u origin main</pre>
           </div>
         `;
         detailsModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
       }
     };
 
     window.closeDetails = () => {
       detailsModal.classList.remove('open');
+      document.body.style.overflow = '';
     };
 
     detailsModal.addEventListener('click', (e) => {
